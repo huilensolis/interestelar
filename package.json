@@ -1,0 +1,12 @@
+{
+  "name": "interestellar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "hola-huilen": "echo \"Hola, mi querido amigo huilen solis. Att: Jes015 la maravilla\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
