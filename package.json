@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "hola-huilen": "echo \"Hola, mi querido amigo huilen solis. Att: Jes015 la maravilla\""
+    "dev": "turbo run dev"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "^1.12.2"
+  }
 }
