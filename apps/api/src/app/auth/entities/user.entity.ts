@@ -22,7 +22,7 @@ export class User {
   password: string;
 
   @Column('text', {
-    default: null,
+    default: '/default-user.png',
   })
   avatar: string;
 
