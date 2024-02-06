@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { CEnvSchema } from '../config/env.validation';
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
       rootPath: join(__dirname, '..', '..', 'public'),
     }),
     AuthModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

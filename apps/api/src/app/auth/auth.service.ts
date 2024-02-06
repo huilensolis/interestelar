@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BadCredentialsException } from 'src/common/exceptions';
 import { throwError } from 'src/common/utils';
 import { Repository } from 'typeorm';
+import { User } from '../users/entities';
 import { SignInDto, SignUpDto } from './dto';
-import { User } from './entities';
 
 @Injectable()
 export class AuthService {
