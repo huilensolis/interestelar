@@ -26,6 +26,11 @@ export class User {
   })
   avatar: string;
 
+  @Column('boolean', {
+    default: true,
+  })
+  isActive: boolean;
+
   @Column('text', {
     array: true,
     default: ['user'],
