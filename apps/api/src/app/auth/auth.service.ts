@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { compareSync, hashSync } from 'bcrypt';
 import { BadCredentialsException } from 'src/common/exceptions';
 import { throwError } from 'src/common/utils';
 import { Repository } from 'typeorm';
@@ -18,6 +19,7 @@ export class AuthService {
 
   async signUp(data: SignUpDto) {
     try {
+      data.password = hashSync(data.password, 10);
       const user = this.userRepository.create(data);
 
       const userInDB = await this.userRepository.save(user);
@@ -41,13 +43,14 @@ export class AuthService {
       },
     });
 
+    console.log(user);
     const isAInvalidUser = user == null;
     if (isAInvalidUser) {
       throw new BadCredentialsException();
     }
 
-    const isAInvalidPassword = user.password !== data.password;
-    if (isAInvalidPassword) {
+    const isValidPassword = compareSync(data.password, user.password);
+    if (!isValidPassword) {
       throw new BadCredentialsException();
     }
 
