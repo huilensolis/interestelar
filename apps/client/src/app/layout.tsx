@@ -16,7 +16,11 @@ export default function RootLayout({
 }>): React.JSX.Element {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="w-full min-h-screen h-full flex justify-center items-center">
+          <div className="w-full max-w-7xl">{children}</div>
+        </div>
+      </body>
     </html>
   )
 }
