@@ -33,7 +33,7 @@ export function SignInForm() {
         hasError={Boolean(errors.email?.message)}
       />
       <TextInput
-        placeholder="password"
+        placeholder="Password"
         {...register('password', {
           minLength: { value: 20, message: 'password is too short' },
           maxLength: { value: 100, message: 'password is too long' },
