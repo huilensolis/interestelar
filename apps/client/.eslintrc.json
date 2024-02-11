@@ -11,9 +11,9 @@
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/indent": "off",
     "eslint-multinine-ternary": "off",
-    "@typescript-eslint/no-useless-constructor": "warn",
-    "@typescript-eslint/no-extraneous-class": "warn",
+    "@typescript-eslint/no-useless-constructor": "off",
+    "@typescript-eslint/no-extraneous-class": "off",
     "@next/next/no-img-element": "off",
-    "typescript-eslint/consistent-type-definitions": "off"
+    "@typescript-eslint/consistent-type-definitions": "off"
   }
 }
