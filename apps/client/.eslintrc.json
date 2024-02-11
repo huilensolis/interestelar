@@ -13,6 +13,7 @@
     "eslint-multinine-ternary": "off",
     "@typescript-eslint/no-useless-constructor": "warn",
     "@typescript-eslint/no-extraneous-class": "warn",
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "typescript-eslint/consistent-type-definitions": "off"
   }
 }

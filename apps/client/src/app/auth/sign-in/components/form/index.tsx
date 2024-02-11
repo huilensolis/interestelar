@@ -4,16 +4,16 @@ import { TextInput } from '@/components/ui/text-input'
 import { useForm } from 'react-hook-form'
 import type { TFormAreas } from './form.models'
 
-export function SignUpForm() {
+export function SignInForm() {
   const { register, handleSubmit, formState, getFieldState } =
     useForm<TFormAreas>({ mode: 'onTouched' })
 
   const { errors } = formState
 
-  function handleSignUp() {}
+  function handleSignIn() {}
   return (
     <form
-      onSubmit={handleSubmit(handleSignUp)}
+      onSubmit={handleSubmit(handleSignIn)}
       className="flex flex-col gap-3 w-full max-w-96"
     >
       <TextInput

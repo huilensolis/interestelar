@@ -1,4 +1,6 @@
+import { ClientRouting } from '@/models/routes/client'
 import type { Redirect } from 'next'
+import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 export default function AuthLayout({
@@ -20,7 +22,31 @@ export default function AuthLayout({
 
   return (
     <article className="grid grid-cols-2 grid-rows-1 w-full h-full min-h-screen">
-      {children}
+      <main className="flex flex-col h-full w-full">
+        <header>
+          <nav className="p-4">
+            <ul className="flex gap-2 w-full justify-end">
+              <li>
+                <Link
+                  href={ClientRouting.auth().signIn()}
+                  className="text-neutral-600 hover:text-neutral-500 transition-colors duration-75 px-3 py-1 rounded-md font-medium"
+                >
+                  Sign In
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={ClientRouting.auth().signUp()}
+                  className="text-neutral-600 bg-neutral-100 hover:brightness-95 transition-colors duration-75 px-3 py-1 rounded-md font-medium"
+                >
+                  Sign Up
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        {children}
+      </main>
       <Aside />
     </article>
   )
