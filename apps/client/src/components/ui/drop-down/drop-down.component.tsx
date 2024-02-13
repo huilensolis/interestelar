@@ -27,15 +27,26 @@ const DropDownRoot = ({
       <header className="w-full flex justify-between hover:bg-gray-200 rounded-md">
         <button
           onClick={toggleDrop}
-          className="w-full flex items-center p-1 focus:outline-blue-300 focus-visible:outline-blue-300"
+          className={`${drop ? 'text-neutral-800' : 'text-neutral-600'} w-full flex items-center p-1 focus:outline-blue-300 focus-visible:outline-blue-300`}
         >
           <Link
             className="w-full flex items-center gap-2 hover:bg-gray-200"
             href={href}
           >
-            <Icon icon={HeaderIcon} /> <h3 className="font-medium">{title}</h3>
+            <Icon
+              icon={HeaderIcon}
+              className={`${drop ? 'text-neutral-800' : 'text-neutral-600'}`}
+            />
+            <h3 className="font-medium">{title}</h3>
           </Link>
-          {drop ? <Icon icon={ChevronUp} /> : <Icon icon={ChevronDown} />}
+          {drop ? (
+            <Icon
+              icon={ChevronUp}
+              className={`${drop ? 'text-neutral-800' : 'text-neutral-600'}`}
+            />
+          ) : (
+            <Icon icon={ChevronDown} />
+          )}
         </button>
       </header>
       {drop && (
