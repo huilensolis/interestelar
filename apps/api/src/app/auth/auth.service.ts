@@ -43,7 +43,6 @@ export class AuthService {
       },
     });
 
-    console.log(user);
     const isAInvalidUser = user == null;
     if (isAInvalidUser) {
       throw new BadCredentialsException();
