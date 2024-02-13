@@ -7,11 +7,19 @@ import {
 } from 'class-validator';
 
 export class SignUpDto {
+  /**
+   * User email
+   * @example 'correo@gmail.com'
+   */
   @IsString()
   @IsEmail()
   @MaxLength(50)
   email: string;
 
+  /**
+   * User username
+   * @example 'HuilenSolis23'
+   */
   @IsString()
   @MinLength(4)
   @MaxLength(20)
@@ -20,6 +28,10 @@ export class SignUpDto {
   })
   username: string;
 
+  /**
+   * User password
+   * @example 'Password123123'
+   */
   @IsString()
   @MinLength(4)
   @MaxLength(40)
