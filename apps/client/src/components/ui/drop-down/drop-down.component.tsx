@@ -23,28 +23,26 @@ const DropDownRoot = ({
   const HeaderIcon = icon
 
   return (
-    <article>
-      <header className="w-full flex justify-between items-center">
-        <Link
-          className="w-full flex items-center gap-2 rounded-md hover:bg-gray-200 p-1"
-          href={href}
-        >
-          <Icon icon={HeaderIcon} /> <h3 className="font-medium">{title}</h3>
-        </Link>
+    <article className="flex flex-col gap-1">
+      <header className="w-full flex justify-between hover:bg-gray-200 rounded-md">
         <button
           onClick={toggleDrop}
-          className="h-full hover:bg-gray-200 rounded-sm"
+          className="w-full flex items-center p-1 focus:outline-blue-300 focus-visible:outline-blue-300"
         >
+          <Link
+            className="w-full flex items-center gap-2 hover:bg-gray-200"
+            href={href}
+          >
+            <Icon icon={HeaderIcon} /> <h3 className="font-medium">{title}</h3>
+          </Link>
           {drop ? <Icon icon={ChevronUp} /> : <Icon icon={ChevronDown} />}
         </button>
       </header>
       {drop && (
-        <section className="flex items-stretch">
-          <div className="pl-5 pr-2">
-            <hr className="h-full bg-neutral-400 rounded-md w-[2px]" />
-          </div>
-          <div className="flex flex-col w-full">{children}</div>
-        </section>
+        <div className="flex items-stretch w-full pl-4 p-1">
+          <div className="bg-gray-300 h-auto w-[2px] rounded-sm" />
+          <div className="flex flex-col gap-2 w-full">{children}</div>
+        </div>
       )}
     </article>
   )
