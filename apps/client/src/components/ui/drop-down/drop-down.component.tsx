@@ -22,31 +22,23 @@ const DropDownRoot = ({
 
   const HeaderIcon = icon
 
+  const isPathActive = Boolean(Math.max(Math.random() * 10) > 6)
+
   return (
-    <article className="flex flex-col gap-1">
+    <article className="flex flex-col">
       <header className="w-full flex justify-between hover:bg-gray-200 rounded-md">
         <button
           onClick={toggleDrop}
-          className={`${drop ? 'text-neutral-800' : 'text-neutral-600'} w-full flex items-center p-1 focus:outline-blue-300 focus-visible:outline-blue-300`}
+          className={`${isPathActive ? 'text-neutral-800' : 'text-neutral-500'} transition-colors duration-75 w-full flex items-center p-1 focus:outline-blue-300 focus-visible:outline-blue-300`}
         >
           <Link
             className="w-full flex items-center gap-2 hover:bg-gray-200"
             href={href}
           >
-            <Icon
-              icon={HeaderIcon}
-              className={`${drop ? 'text-neutral-800' : 'text-neutral-600'}`}
-            />
+            <Icon icon={HeaderIcon} />
             <h3 className="font-medium">{title}</h3>
           </Link>
-          {drop ? (
-            <Icon
-              icon={ChevronUp}
-              className={`${drop ? 'text-neutral-800' : 'text-neutral-600'}`}
-            />
-          ) : (
-            <Icon icon={ChevronDown} />
-          )}
+          {drop ? <Icon icon={ChevronUp} /> : <Icon icon={ChevronDown} />}
         </button>
       </header>
       {drop && (
