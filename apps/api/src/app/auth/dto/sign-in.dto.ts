@@ -7,11 +7,19 @@ import {
 } from 'class-validator';
 
 export class SignInDto {
+  /**
+   * User email
+   * @example 'correo@gmail.com'
+   */
   @IsString()
   @IsEmail()
   @MaxLength(50)
   email: string;
 
+  /**
+   * User password
+   * @example 'Password123123'
+   */
   @IsString()
   @MinLength(4)
   @MaxLength(40)
