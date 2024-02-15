@@ -6,7 +6,7 @@ import { RoleProtected } from './role.decorator';
 
 export function Auth(...validRoles: TValidRoleArray) {
   return applyDecorators(
-    RoleProtected(validRoles),
+    RoleProtected(['user', ...validRoles]),
     UseGuards(AuthGuard(), RoleGuard),
   );
 }

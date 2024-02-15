@@ -1,5 +1,6 @@
 import { UUID } from 'crypto';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Project } from 'src/app/projects/entities';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -36,4 +37,7 @@ export class User {
     default: ['user'],
   })
   roles: string[];
+
+  @OneToMany(() => Project, (project) => project.user)
+  projects: string[];
 }
