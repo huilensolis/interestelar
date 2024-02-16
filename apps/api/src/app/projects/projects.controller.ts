@@ -35,7 +35,7 @@ export class ProjectsController {
 
   @Auth()
   @Get(':id')
-  findAll(@Param('id', ParseUUIDPipe) id: UUID, @GetUser() user: User) {
+  getOneProject(@Param('id', ParseUUIDPipe) id: UUID, @GetUser() user: User) {
     return this.projectsService.findOne(id, user);
   }
 

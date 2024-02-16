@@ -48,7 +48,6 @@ export class ProjectsService {
       user: { id: user.id },
     });
 
-    console.log({ projectFound });
     if (projectFound == null) {
       throw new NotFoundException('Product not found');
     }
