@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
@@ -21,7 +22,7 @@ export class Project {
   @Column('text')
   emoji: string;
 
-  @ManyToOne(() => ProjectColumn, (column) => column.project, {
+  @OneToMany(() => ProjectColumn, (column) => column.project, {
     cascade: true,
     eager: true,
   })
