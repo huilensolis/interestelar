@@ -17,8 +17,7 @@
             "persistent": true
         },
         "setupDB": {
-            "cache": false,
-            "persistent": true
+            "cache": false
         }
     }
 }
