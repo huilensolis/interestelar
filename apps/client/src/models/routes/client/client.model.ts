@@ -15,6 +15,7 @@ export class ClientRouting {
 
     return {
       home: () => `${appPath}/`,
+      project: (projectId: string) => `${appPath}/projects/${projectId}`,
     }
   }
 }
