@@ -10,14 +10,14 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UUID } from 'crypto';
-import { Auth, GetUser } from '../auth/decorators';
-import { User } from '../users/entities';
+import { Auth, GetUser } from 'src/app/auth/decorators';
+import { User } from 'src/app/users/entities';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { ProjectsService } from './projects.service';
 
 @ApiTags('Projects')
-@Controller('project')
+@Controller()
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 

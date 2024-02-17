@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import { Project } from 'src/app/projects/entities';
+import { Project } from 'src/app/projects/base/entities';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')

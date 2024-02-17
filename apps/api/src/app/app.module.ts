@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { CEnvSchema } from '../config/env.validation';
 import { AuthModule } from './auth/auth.module';
+import { ProjectsBaseModule } from './projects/projects-base.module';
 import { UsersModule } from './users/users.module';
-import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { ProjectsModule } from './projects/projects.module';
     }),
     AuthModule,
     UsersModule,
-    ProjectsModule,
+    ProjectsBaseModule,
   ],
   controllers: [],
   providers: [],

@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
+import { Tag } from '../../tags/entities/tag.entity';
 import { ProjectColumn } from './project-column.entity';
 
 @Entity('projects')
@@ -28,12 +29,12 @@ export class Project {
   })
   columns: ProjectColumn[];
 
-  @Column('uuid', {
-    array: true,
-    default: [],
-  })
-  taskIds: UUID[];
-
   @ManyToOne(() => User, (user) => user.projects)
   user: User;
+
+  @OneToMany(() => Tag, (tag) => tag.project, {
+    eager: true,
+    cascade: true,
+  })
+  tags: Tag[];
 }
