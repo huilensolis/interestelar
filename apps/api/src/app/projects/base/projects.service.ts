@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UUID } from 'crypto';
+import { postgresErrorHandler } from 'src/app/common/utils/handle-db-exceptions.model';
+import { User } from 'src/app/users/entities';
 import { Repository } from 'typeorm';
-import { postgresErrorHandler } from '../common/utils/handle-db-exceptions.model';
-import { User } from '../users/entities';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './entities';

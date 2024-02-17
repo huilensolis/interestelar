@@ -21,5 +21,41 @@ export class ConflictResponse {
   @ApiProperty({
     default: 'Conflict',
   })
-  message: '';
+  message: 'Conflict';
+}
+
+export class NotFoundResponse {
+  @ApiProperty({
+    default: 404,
+  })
+  statusCode: 404;
+
+  @ApiProperty({
+    default: 'Not found',
+  })
+  message: 'Not found';
+}
+
+export class OkResponse {
+  @ApiProperty({
+    default: 200,
+  })
+  statusCode: 200;
+
+  @ApiProperty({
+    default: 'OK',
+  })
+  message: 'OK';
+}
+
+export class ForbiddenResponse {
+  @ApiProperty({
+    default: 403,
+  })
+  statusCode: 403;
+
+  @ApiProperty({
+    default: 'Forbidden',
+  })
+  message: 'Forbidden';
 }
