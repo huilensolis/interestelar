@@ -1,4 +1,10 @@
-import { IsEnum, IsString, IsUUID } from 'class-validator';
+import {
+  IsEnum,
+  IsString,
+  IsUUID,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { UUID } from 'crypto';
 import { Color } from 'src/app/common/models';
 
@@ -7,6 +13,8 @@ export class CreateTagDto {
   projectId: UUID;
 
   @IsString()
+  @MinLength(1)
+  @MaxLength(14)
   tagName: string;
 
   @IsString()

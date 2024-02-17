@@ -1,4 +1,6 @@
 import { UUID } from 'crypto';
+import { ProjectColumn } from 'src/app/projects/columns/entities';
+import { Tag } from 'src/app/projects/tags/entities/tag.entity';
 import { User } from 'src/app/users/entities';
 import {
   Column,
@@ -8,8 +10,6 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { Tag } from '../../tags/entities/tag.entity';
-import { ProjectColumn } from './project-column.entity';
 
 @Entity('projects')
 @Unique(['name', 'user'])

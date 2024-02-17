@@ -1,6 +1,6 @@
 import { UUID } from 'crypto';
+import { Project } from 'src/app/projects/base/entities';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Project } from './project.entity';
 
 @Entity('project-columns')
 export class ProjectColumn {

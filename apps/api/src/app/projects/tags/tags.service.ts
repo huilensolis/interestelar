@@ -63,9 +63,7 @@ export class TagsService {
     });
 
     if (affected === 0) {
-      throw new NotFoundException(
-        `Tag with id ${id} roject to delete not found`,
-      );
+      throw new NotFoundException(`Tag with id ${id} not found`);
     }
 
     return 'Tag removed';

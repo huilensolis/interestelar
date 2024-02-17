@@ -3,7 +3,6 @@ import { RouterModule } from '@nestjs/core';
 import { ProjectsModule } from './base/projects.module';
 import { ColumnsModule } from './columns/columns.module';
 import { TagsModule } from './tags/tags.module';
-//TODO:Add the user module only if you need it
 //TODO:Add cookies httpOnly for auth
 @Module({
   imports: [
