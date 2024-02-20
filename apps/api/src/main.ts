@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
@@ -16,6 +17,8 @@ async function bootstrap() {
       },
     }),
   );
+
+  app.use(cookieParser());
 
   app.setGlobalPrefix('/api');
 
