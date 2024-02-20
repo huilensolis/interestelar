@@ -9,6 +9,7 @@ export const CEnvSchema = z.object({
   AUTH_SECRET: z.coerce.string().min(4),
   AUTH_EXPIRES: z.coerce.string().min(2),
   WEB_APP_DOMAIN: z.coerce.string().min(2),
+  WEB_APP_ORIGIN: z.coerce.string().url().min(2),
 });
 
 export type TEnvSchema = z.infer<typeof CEnvSchema>;
