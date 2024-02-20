@@ -29,7 +29,7 @@ export class AuthController {
     description: 'Bad credentials',
     type: AuthBadCredentialsResponse,
   })
-  @Post('signIn')
+  @Post('sign-in')
   async signIn(
     @Body() data: SignInDto,
     @Res({ passthrough: true }) response: Response,
@@ -54,7 +54,7 @@ export class AuthController {
     description: 'Email or username already exits',
     type: ConflictResponse,
   })
-  @Post('signUp')
+  @Post('sign-up')
   async signUp(
     @Body() data: SignUpDto,
     @Res({ passthrough: true }) response: Response,
