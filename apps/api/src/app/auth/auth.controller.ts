@@ -1,10 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { Response } from 'express';
 import { AuthBadCredentialsResponse, ConflictResponse } from '../common/models';
 import { AuthService } from './auth.service';
 import { Auth } from './decorators/auth.decorator';
@@ -14,7 +16,10 @@ import { CValidRoles, UserAuthSuccessResponse } from './models';
 @ApiTags('User Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @ApiCreatedResponse({
     description: 'Sign in success',
@@ -25,8 +30,20 @@ export class AuthController {
     type: AuthBadCredentialsResponse,
   })
   @Post('signIn')
-  signIn(@Body() data: SignInDto) {
-    return this.authService.signIn(data);
+  async signIn(
+    @Body() data: SignInDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const { user, access_token } = await this.authService.signIn(data);
+
+    const webAppDomain = this.configService.get<string>('WEB_APP_DOMAIN');
+
+    response.cookie('auth-cookie', access_token, {
+      httpOnly: true,
+      domain: webAppDomain,
+    });
+
+    return { user };
   }
 
   @ApiCreatedResponse({
@@ -38,8 +55,24 @@ export class AuthController {
     type: ConflictResponse,
   })
   @Post('signUp')
-  signUp(@Body() data: SignUpDto) {
-    return this.authService.signUp(data);
+  async signUp(
+    @Body() data: SignUpDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const userData = await this.authService.signUp(data);
+
+    if (userData == null) return;
+
+    const { access_token, user } = userData;
+
+    const webAppDomain = this.configService.get<string>('WEB_APP_DOMAIN');
+
+    response.cookie('auth-cookie', access_token, {
+      httpOnly: true,
+      domain: webAppDomain,
+    });
+
+    return user;
   }
 
   @Auth(CValidRoles.admin)
