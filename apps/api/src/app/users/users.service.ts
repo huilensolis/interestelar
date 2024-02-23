@@ -1,24 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './entities';
+import { UserKey } from './models';
 
 @Injectable()
 export class UsersService {
-  create() {
-    return 'This action adds a new user';
-  }
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) {}
 
-  findAll() {
-    return `This action returns all users`;
-  }
+  public async checkUserData(userKey: UserKey, value: string) {
+    const userFound = await this.userRepository.findOneBy({ [userKey]: value });
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+    if (userFound != null) {
+      throw new ConflictException();
+    }
 
-  update(id: number) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    return 'OK';
   }
 }
