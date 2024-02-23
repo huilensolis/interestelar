@@ -2,7 +2,7 @@
 
 import { TextInput } from '@/components/ui/text-input'
 import { useForm } from 'react-hook-form'
-import type { TFormAreas } from './form.models'
+import type { TFormAreas } from './sign-up-form.models'
 import { useSession } from '@/hooks/use-session'
 import { PrimaryButton } from '@/components/ui/button/primary/primary-button.component'
 import { useState } from 'react'
