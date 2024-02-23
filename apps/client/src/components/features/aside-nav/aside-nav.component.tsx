@@ -3,6 +3,7 @@ import { NavLink } from './components/nav-link'
 import type { TNavLinkProps } from './components/nav-link/nav-link.models'
 import { ProjectsDropDown } from './components/projects-dropdown'
 import { Calendar, Map, Settings, UsersRound, PlusCircle } from 'lucide-react'
+import { ClientRouting } from '@/models/routes/client'
 
 const NAV_LINKS: TNavLinkProps[] = [
   {
@@ -37,22 +38,22 @@ export async function AsideNav(): Promise<React.JSX.Element> {
     {
       title: 'Screen Recorder',
       emote: '📸',
-      href: '',
+      href: ClientRouting.app().project('Screen Recorder'),
     },
     {
       title: 'Memoir',
       emote: '📓',
-      href: '',
+      href: ClientRouting.app().project('Memoir'),
     },
     {
       title: 'Culinary Alchemy',
       emote: '🍜',
-      href: '',
+      href: ClientRouting.app().project('Culinary Alchemy'),
     },
     {
       title: 'Portfolio',
       emote: '🚀',
-      href: '',
+      href: ClientRouting.app().project('Portfolio'),
     },
   ]
 

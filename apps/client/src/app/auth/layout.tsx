@@ -21,8 +21,8 @@ export default function AuthLayout({
   // }
 
   return (
-    <article className="grid grid-cols-2 grid-rows-1 w-full h-full min-h-screen">
-      <main className="flex flex-col h-full w-full">
+    <article className="grid grid-cols-1 md:grid-cols-2 grid-rows-1 md:grid-rows-1 w-full h-full min-h-screen">
+      <main className="flex flex-col h-full w-full min-h-screen">
         <header>
           <nav className="p-4">
             <ul className="flex gap-2 w-full justify-end">
@@ -45,9 +45,11 @@ export default function AuthLayout({
             </ul>
           </nav>
         </header>
-        {children}
+        <section className="h-full">{children}</section>
       </main>
-      <Aside />
+      <section className="md:flex hidden w-full h-full">
+        <Aside />
+      </section>
     </article>
   )
 }
