@@ -6,13 +6,13 @@ import { UsersService } from './users.service';
 export class UserController {
   constructor(private userService: UsersService) {}
 
-  @Get('/check/username/:id')
-  checkUsername(@Param('id') username: string) {
+  @Get('/check/username/:value')
+  checkUsername(@Param('value') username: string) {
     return this.userService.checkUserData('username', username);
   }
 
-  @Get('/check/email/:id')
-  checkEmail(@Param('id', IsEmailPipe) email: string) {
+  @Get('/check/email/:value')
+  checkEmail(@Param('value', IsEmailPipe) email: string) {
     return this.userService.checkUserData('email', email);
   }
 }
