@@ -1,4 +1,6 @@
 import { UUID } from 'crypto';
+import { ProjectColumn } from 'src/app/projects/columns/entities';
+import { Tag } from 'src/app/projects/tags/entities/tag.entity';
 import { User } from 'src/app/users/entities';
 import {
   Column,
@@ -8,7 +10,6 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { ProjectColumn } from './project-column.entity';
 
 @Entity('projects')
 @Unique(['name', 'user'])
@@ -28,12 +29,12 @@ export class Project {
   })
   columns: ProjectColumn[];
 
-  @Column('uuid', {
-    array: true,
-    default: [],
-  })
-  taskIds: UUID[];
-
   @ManyToOne(() => User, (user) => user.projects)
   user: User;
+
+  @OneToMany(() => Tag, (tag) => tag.project, {
+    eager: true,
+    cascade: true,
+  })
+  tags: Tag[];
 }

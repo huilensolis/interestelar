@@ -1,19 +1,19 @@
 import { UUID } from 'crypto';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Project } from './project.entity';
+import { Project } from '../../base/entities';
 
-@Entity('project-columns')
-export class ProjectColumn {
+@Entity('tags')
+export class Tag {
   @PrimaryGeneratedColumn('uuid')
   id: UUID;
 
-  @Column('text')
-  name: string;
+  @Column('text', {})
+  tagName: string;
 
   @Column('text')
-  emoji: string;
+  color: string;
 
-  @ManyToOne(() => Project, (project) => project.columns, {
+  @ManyToOne(() => Project, (project) => project.tags, {
     onDelete: 'CASCADE',
   })
   project: Project;
