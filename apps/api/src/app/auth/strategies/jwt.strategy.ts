@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { AuthCookieName } from 'src/app/common/models';
 import { BadCredentialsException } from 'src/common/exceptions';
 import { Repository } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
@@ -20,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: configService.get('AUTH_SECRET'),
       jwtFromRequest: ExtractJwt.fromExtractors([
         (request: any) => {
-          const data = request?.cookies['auth-cookie'];
+          const data = request?.cookies[AuthCookieName];
           console.log({ data });
           if (!data) {
             return null;

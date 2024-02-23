@@ -8,6 +8,7 @@ import {
 } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AuthBadCredentialsResponse, ConflictResponse } from '../common/models';
+import { adaptCookie } from './adapters/cookie.adapter';
 import { AuthService } from './auth.service';
 import { Auth } from './decorators/auth.decorator';
 import { SignInDto, SignUpDto } from './dto';
@@ -36,12 +37,7 @@ export class AuthController {
   ) {
     const { user, access_token } = await this.authService.signIn(data);
 
-    const webAppDomain = this.configService.get<string>('WEB_APP_DOMAIN');
-
-    response.cookie('auth-cookie', access_token, {
-      httpOnly: true,
-      domain: webAppDomain,
-    });
+    adaptCookie(access_token, response);
 
     return { user };
   }
@@ -65,14 +61,9 @@ export class AuthController {
 
     const { access_token, user } = userData;
 
-    const webAppDomain = this.configService.get<string>('WEB_APP_DOMAIN');
+    adaptCookie(access_token, response);
 
-    response.cookie('auth-cookie', access_token, {
-      httpOnly: true,
-      domain: webAppDomain,
-    });
-
-    return user;
+    return { user };
   }
 
   @Auth(CValidRoles.admin)
