@@ -3,16 +3,21 @@ import { ConfigService } from '@nestjs/config';
 import {
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiDefaultResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Response } from 'express';
-import { AuthBadCredentialsResponse, ConflictResponse } from '../common/models';
-import { adaptCookie } from './adapters/cookie.adapter';
+import {
+  AuthBadCredentialsResponse,
+  ConflictResponse,
+  OkResponse,
+} from '../common/models';
 import { AuthService } from './auth.service';
 import { Auth } from './decorators/auth.decorator';
 import { SignInDto, SignUpDto } from './dto';
 import { CValidRoles, UserAuthSuccessResponse } from './models';
+import { adaptCookie, deleteCookie } from './utils/';
 
 @ApiTags('User Auth')
 @Controller('auth')
@@ -64,6 +69,17 @@ export class AuthController {
     adaptCookie(access_token, response);
 
     return { user };
+  }
+
+  @ApiDefaultResponse({
+    description: 'Sign out success',
+    type: OkResponse,
+  })
+  @Post('sign-out')
+  async signOut(@Res({ passthrough: true }) response: Response) {
+    deleteCookie(response);
+
+    return 'OK';
   }
 
   @Auth(CValidRoles.admin)
