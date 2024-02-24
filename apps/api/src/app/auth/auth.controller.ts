@@ -3,15 +3,21 @@ import { ConfigService } from '@nestjs/config';
 import {
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiDefaultResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Response } from 'express';
-import { AuthBadCredentialsResponse, ConflictResponse } from '../common/models';
+import {
+  AuthBadCredentialsResponse,
+  ConflictResponse,
+  OkResponse,
+} from '../common/models';
 import { AuthService } from './auth.service';
 import { Auth } from './decorators/auth.decorator';
 import { SignInDto, SignUpDto } from './dto';
 import { CValidRoles, UserAuthSuccessResponse } from './models';
+import { adaptCookie, deleteCookie } from './utils/';
 
 @ApiTags('User Auth')
 @Controller('auth')
@@ -36,12 +42,7 @@ export class AuthController {
   ) {
     const { user, access_token } = await this.authService.signIn(data);
 
-    const webAppDomain = this.configService.get<string>('WEB_APP_DOMAIN');
-
-    response.cookie('auth-cookie', access_token, {
-      httpOnly: true,
-      domain: webAppDomain,
-    });
+    adaptCookie(access_token, response);
 
     return { user };
   }
@@ -65,14 +66,20 @@ export class AuthController {
 
     const { access_token, user } = userData;
 
-    const webAppDomain = this.configService.get<string>('WEB_APP_DOMAIN');
+    adaptCookie(access_token, response);
 
-    response.cookie('auth-cookie', access_token, {
-      httpOnly: true,
-      domain: webAppDomain,
-    });
+    return { user };
+  }
 
-    return user;
+  @ApiDefaultResponse({
+    description: 'Sign out success',
+    type: OkResponse,
+  })
+  @Post('sign-out')
+  async signOut(@Res({ passthrough: true }) response: Response) {
+    deleteCookie(response);
+
+    return 'OK';
   }
 
   @Auth(CValidRoles.admin)
