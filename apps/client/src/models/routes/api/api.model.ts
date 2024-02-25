@@ -12,4 +12,15 @@ export class ApiRouting {
       signIn: this.getFullPath(`${authPath}/sign-in`),
     }
   }
+
+  public static get user() {
+    const userPath = 'users'
+
+    return {
+      checkUsernameAvailability: (username: string) =>
+        this.getFullPath(`${userPath}/check/username/${username}`),
+      checkEmailAvailability: (email: string) =>
+        this.getFullPath(`${userPath}/check/email/${email}`),
+    }
+  }
 }
