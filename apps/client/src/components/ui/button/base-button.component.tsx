@@ -11,7 +11,10 @@ export function BaseButton({
     <button
       aria-disabled={disabled}
       disabled={disabled}
-      className={['rounded-sm font-medium', className].join(' ')}
+      className={[
+        'rounded-sm font-medium flex items-center justify-center',
+        className,
+      ].join(' ')}
       {...props}
     >
       {loading ? <LoaderSpinner /> : children}
