@@ -5,18 +5,79 @@ import { useForm } from 'react-hook-form'
 import type { TFormAreas } from './sign-up-form.models'
 import { useSession } from '@/hooks/use-session'
 import { PrimaryButton } from '@/components/ui/button/primary/primary-button.component'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ClientRouting } from '@/models/routes/client'
+import { useDebounce } from '@/hooks/use-debounce'
+import { useUser } from '@/hooks/use-user'
 
 export function SignUpForm() {
+  const { register, handleSubmit, formState, getFieldState, setError } =
+    useForm<TFormAreas>({ mode: 'onChange' })
+
+  const { errors } = formState
+
   const [loading, setLoading] = useState(false)
   const [errorSigningUp, setErrorSigningUp] = useState(false)
 
-  const { register, handleSubmit, formState, getFieldState } =
-    useForm<TFormAreas>({ mode: 'onTouched' })
+  const [usernameValue, setUsernameValue] = useState<string>('')
+  const [gmailValue, setGmailValue] = useState<string>('')
 
-  const { errors } = formState
+  const [isValidatingUsername, setIsValidatingUsername] = useState(false)
+  const [isValidatingGmail, setIsValidatingGmail] = useState(false)
+
+  const { debouncedValue: debouncedUsernameValue } = useDebounce({
+    value: usernameValue,
+    delay: 1000,
+  })
+  const { debouncedValue: debouncedGmailValue } = useDebounce({
+    value: gmailValue,
+    delay: 1000,
+  })
+
+  const { checkGmailAvailability, checkUsernameAvailability } = useUser()
+
+  useEffect(() => {
+    async function validateUsername() {
+      const { error } = await checkUsernameAvailability(debouncedUsernameValue)
+      if (error) {
+        setError('username', {
+          type: 'validate',
+          message: 'Username already in use',
+        })
+      }
+      setIsValidatingUsername(false)
+    }
+
+    if (debouncedUsernameValue.length > 0) {
+      setIsValidatingUsername(true)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      validateUsername()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedUsernameValue])
+
+  useEffect(() => {
+    async function validateGmail() {
+      const { error } = await checkGmailAvailability(debouncedGmailValue)
+      if (error) {
+        setError('email', {
+          type: 'validate',
+          message: 'gmail not available',
+        })
+      }
+      setIsValidatingGmail(false)
+    }
+
+    if (debouncedGmailValue.length > 0) {
+      setIsValidatingGmail(true)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      validateGmail()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedGmailValue])
 
   const { signUp } = useSession()
   const router = useRouter()
@@ -47,17 +108,23 @@ export function SignUpForm() {
         <TextInput.Input
           placeholder="Username"
           {...register('username', {
-            minLength: { value: 4, message: 'Username is too short' },
-            maxLength: { value: 20, message: 'Username is too long' },
-            required: 'Username required',
+            minLength: { value: 4, message: 'username is too short' },
+            maxLength: { value: 20, message: 'username is too long' },
+            required: 'username required',
             pattern: {
               value: /^[a-zA-Z0-9_-]+$/,
-              message: 'The username should not contain symbols or operators.',
+              message: 'username cant contain symbols, spaces or operators.',
+            },
+            onChange(e: React.ChangeEvent<HTMLInputElement>) {
+              setUsernameValue(e.target.value)
             },
           })}
           isDirty={getFieldState('username', formState).isTouched}
           hasError={Boolean(errors.username?.message)}
         />
+        {isValidatingUsername && (
+          <span className="text-neutral-700">validating username...</span>
+        )}
         {errors.username && (
           <TextInput.Error>{errors.username.message}</TextInput.Error>
         )}
@@ -75,10 +142,16 @@ export function SignUpForm() {
                 /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
               message: 'invalid email format',
             },
+            onChange(e: React.ChangeEvent<HTMLInputElement>) {
+              setGmailValue(e.target.value)
+            },
           })}
           isDirty={getFieldState('email', formState).isTouched}
           hasError={Boolean(errors.email?.message)}
         />
+        {isValidatingGmail && (
+          <span className="text-neutral-700">validating gmail...</span>
+        )}
         {errors.email && (
           <TextInput.Error>{errors.email.message}</TextInput.Error>
         )}
@@ -88,12 +161,12 @@ export function SignUpForm() {
           type="password"
           placeholder="Password"
           {...register('password', {
-            minLength: { value: 4, message: 'Password too short' },
-            maxLength: { value: 40, message: 'Password too long' },
+            minLength: { value: 4, message: 'password too short' },
+            maxLength: { value: 40, message: 'password too long' },
             pattern: {
               value: /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
               message:
-                'The password must have a Uppercase, lowercase letter and a number',
+                'password must have a uppercase, lowercase letter and a number',
             },
             required: 'password required',
           })}
