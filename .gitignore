@@ -5,6 +5,9 @@ dist
 node_modules
 postgres
 
+# https certificates
+certificates
+
 # Logs
 logs
 *.log
