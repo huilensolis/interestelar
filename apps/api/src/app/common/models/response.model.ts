@@ -12,6 +12,18 @@ export class AuthBadCredentialsResponse {
   message: 'Bad credentials';
 }
 
+export class UnauthorizedResponse {
+  @ApiProperty({
+    default: 401,
+  })
+  statusCode: 401;
+
+  @ApiProperty({
+    default: 'Unauthorized',
+  })
+  message: 'Unauthorized';
+}
+
 export class ConflictResponse {
   @ApiProperty({
     default: 409,
