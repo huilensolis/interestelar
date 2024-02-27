@@ -1,24 +1,38 @@
 'use client'
 
-import { DropDown } from '@/components/ui/drop-down'
-import { GanttChart } from 'lucide-react'
+import { DropDown } from '@/components/features/drop-down'
+import { Icon } from '@/components/ui/icon'
+import { ChevronDown, ChevronUp, GanttChart } from 'lucide-react'
+import { NavLink } from '../nav-link'
 
 type Props = {
   projects: Array<{ emote: string; title: string; href: string }>
 }
 
-export async function ProjectsDropDown({ projects }: Props) {
+export function ProjectsDropDown({ projects }: Props) {
   return (
-    <DropDown title="Projects" displayListLength={false} icon={GanttChart}>
-      {projects.map((project, i) => (
-        <DropDown.Item
-          title={project.title}
-          emote={project.emote}
-          href={project.href}
-          isActive={Boolean(i === 0)}
-          key={i}
+    <DropDown.Provider>
+      <DropDown.ToggleBtn className="w-full flex justify-between items-center p-1 hover:bg-neutral-200 rounded-sm transition-colors duration-75 text-neutral-700">
+        <section className="w-full flex items-center justify-start">
+          <Icon icon={GanttChart} />
+          <span className="flex gap-2 items-center p-1 outline outline-2 outline-transparent focus:outline-blue-300 focus-visible:outline-blue-300 rounded-md transition-colors duration-75 text-neutral-500 font-medium hover:text-neutral-700">
+            Projects
+          </span>
+        </section>
+        <DropDown.toggleIcon
+          closeIcon={<Icon icon={ChevronUp} />}
+          openIcon={<Icon icon={ChevronDown} />}
         />
-      ))}
-    </DropDown>
+      </DropDown.ToggleBtn>
+      <DropDown.DropeableZone className="flex flex-col gap-2 pl-3">
+        {projects.map((project, i) => (
+          <li key={i}>
+            <NavLink href={project.href}>
+              {project.emote} {project.title}
+            </NavLink>
+          </li>
+        ))}
+      </DropDown.DropeableZone>
+    </DropDown.Provider>
   )
 }
