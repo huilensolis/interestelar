@@ -1,35 +1,43 @@
 import { Hr } from '@/components/ui/hr'
 import { NavLink } from './components/nav-link'
-import type { TNavLinkProps } from './components/nav-link/nav-link.models'
 import { ProjectsDropDown } from './components/projects-dropdown'
-import { Calendar, Map, Settings, UsersRound, PlusCircle } from 'lucide-react'
+import {
+  Calendar,
+  Map,
+  Settings,
+  UsersRound,
+  PlusCircle,
+  type LucideIcon,
+} from 'lucide-react'
 import { ClientRouting } from '@/models/routes/client'
+import { UserCard } from './components/user-card'
+import { Icon } from '@/components/ui/icon'
 
-const NAV_LINKS: TNavLinkProps[] = [
+const NAV_LINKS: Array<{ title: string; icon: LucideIcon; href: string }> = [
   {
     title: 'Calendar',
     icon: Calendar,
-    href: 'calendar',
+    href: '/calendar',
   },
   {
     title: 'Roadmap',
     icon: Map,
-    href: 'map',
+    href: '/map',
   },
   {
     title: 'Settings',
     icon: Settings,
-    href: 'settings',
+    href: '/settings',
   },
   {
     title: 'Members',
     icon: UsersRound,
-    href: 'members',
+    href: '/members',
   },
   {
     title: 'New Project',
     icon: PlusCircle,
-    href: 'new project',
+    href: '/new project',
   },
 ]
 
@@ -38,36 +46,29 @@ export async function AsideNav(): Promise<React.JSX.Element> {
     {
       title: 'Screen Recorder',
       emote: '📸',
-      href: ClientRouting.app().project('Screen Recorder'),
+      href: ClientRouting.app().projects().project('Screen Recorder'),
     },
     {
       title: 'Memoir',
       emote: '📓',
-      href: ClientRouting.app().project('Memoir'),
+      href: ClientRouting.app().projects().project('Memoir'),
     },
     {
       title: 'Culinary Alchemy',
       emote: '🍜',
-      href: ClientRouting.app().project('Culinary Alchemy'),
+      href: ClientRouting.app().projects().project('Culinary Alchemy'),
     },
     {
       title: 'Portfolio',
       emote: '🚀',
-      href: ClientRouting.app().project('Portfolio'),
+      href: ClientRouting.app().projects().project('Portfolio'),
     },
   ]
 
   return (
-    <aside className="flex flex-col gap-2 h-full min-h-screen bg-gray-100 w-full max-w-80 p-2">
-      <header className="flex justify-between items-center py-4 px-1">
-        <section className="flex gap-2 items-center">
-          <img
-            src="https://i.pinimg.com/564x/57/a9/91/57a99101093e71ddacdf9639b5d579ea.jpg"
-            alt="alt"
-            className="w-10 h-full object-cover object-center rounded-md"
-          />{' '}
-          <h2 className="text-lg font-semibold">Memoir org</h2>
-        </section>
+    <aside className="flex flex-col gap-2 h-full min-h-screen bg-gray-100 w-full max-w-80 p-2 py-4">
+      <header className="flex justify-between items-center">
+        <UserCard />
       </header>
       <Hr style="horizontal" />
 
@@ -75,13 +76,11 @@ export async function AsideNav(): Promise<React.JSX.Element> {
         <li>
           <ProjectsDropDown projects={PROJECTS} />
         </li>
-        {NAV_LINKS.map((navLink, i) => (
+        {NAV_LINKS.map((item, i) => (
           <li key={i}>
-            <NavLink
-              href={navLink.href}
-              icon={navLink.icon}
-              title={navLink.title}
-            />
+            <NavLink href={item.href}>
+              <Icon icon={item.icon} /> {item.title}
+            </NavLink>
           </li>
         ))}
         <Hr style="horizontal" />
