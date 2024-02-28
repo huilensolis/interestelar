@@ -26,11 +26,11 @@ export function ProjectsDropDown({ projects }: Props) {
     <DropDown.Provider>
       <DropDown.ToggleBtn
         defaultState={isOnPath ? 'open' : 'close'}
-        className={`w-full flex justify-between items-center p-1 ${isOnPath ? 'bg-gray-200' : 'hover:bg-gray-200'} rounded-sm transition-colors duration-75 text-neutral-700`}
+        className={`w-full flex justify-between items-center p-1 ${isOnPath ? 'bg-gray-200 text-neutral-700' : 'hover:bg-gray-200 text-neutral-500 hover:text-neutral-700'} rounded-sm transition-colors duration-75`}
       >
         <section className="w-full flex items-center justify-start">
           <Icon icon={GanttChart} />
-          <span className="flex gap-2 items-center p-1 outline outline-2 outline-transparent focus:outline-blue-300 focus-visible:outline-blue-300 rounded-md transition-colors duration-75 text-neutral-500 font-medium hover:text-neutral-700">
+          <span className="flex gap-2 items-center p-1 outline outline-2 outline-transparent focus:outline-blue-300 focus-visible:outline-blue-300 rounded-md transition-colors duration-75 font-medium">
             Projects
           </span>
         </section>
