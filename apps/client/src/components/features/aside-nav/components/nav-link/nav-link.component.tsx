@@ -8,7 +8,7 @@ export function NavLink({ href, children }: TNavLinkProps) {
   return (
     <Link
       href={href}
-      className={`w-full flex gap-2 items-center p-1 outline outline-2 outline-transparent focus:outline-blue-300 focus-visible:outline-blue-300 rounded-md transition-colors duration-75 ${isActive ? 'text-neutral-800 font-semibold' : 'text-neutral-500 font-medium hover:text-neutral-700'}`}
+      className={`w-full flex gap-2 items-center p-1 outline outline-2 outline-transparent focus:outline-blue-300 focus-visible:outline-blue-300 rounded-md transition-colors duration-75 ${isActive ? 'text-neutral-800 font-semibold bg-neutral-200' : 'text-neutral-500 font-medium hover:text-neutral-700 hover:bg-neutral-200'}`}
     >
       {children}
     </Link>
