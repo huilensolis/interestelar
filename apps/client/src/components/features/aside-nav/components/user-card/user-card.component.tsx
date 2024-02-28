@@ -36,7 +36,10 @@ export function UserCard() {
   return (
     <div className="relative w-full">
       <DropDown.Provider>
-        <DropDown.ToggleBtn className="w-full flex items-center justify-between hover:bg-gray-200 transition-colors duration-75 py-1 px-1 rounded-md">
+        <DropDown.ToggleBtn
+          closeOnBlur
+          className="w-full flex items-center justify-between hover:bg-gray-200 transition-colors duration-75 py-1 px-1 rounded-md"
+        >
           <article className="flex gap-2 items-center">
             <img
               src="https://avatar.vercel.sh/slug"
