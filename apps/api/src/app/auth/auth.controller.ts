@@ -12,6 +12,7 @@ import {
   AuthBadCredentialsResponse,
   ConflictResponse,
   OkResponse,
+  UnauthorizedResponse,
 } from '../common/models';
 import { AuthService } from './auth.service';
 import { Auth } from './decorators/auth.decorator';
@@ -79,6 +80,20 @@ export class AuthController {
   async signOut(@Res({ passthrough: true }) response: Response) {
     deleteCookie(response);
 
+    return 'OK';
+  }
+
+  @Auth()
+  @ApiDefaultResponse({
+    description: 'Valid session',
+    type: OkResponse,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid session',
+    type: UnauthorizedResponse,
+  })
+  @Get('check-session')
+  checkAuth() {
     return 'OK';
   }
 
