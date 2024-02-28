@@ -14,7 +14,9 @@ import {
   OkResponse,
   UnauthorizedResponse,
 } from '../common/models';
+import { User } from '../users/entities';
 import { AuthService } from './auth.service';
+import { GetUser } from './decorators';
 import { Auth } from './decorators/auth.decorator';
 import { SignInDto, SignUpDto } from './dto';
 import { CValidRoles, UserAuthSuccessResponse } from './models';
@@ -95,6 +97,20 @@ export class AuthController {
   @Get('check-session')
   checkAuth() {
     return 'OK';
+  }
+
+  @Auth()
+  @Get('/user')
+  @ApiDefaultResponse({
+    description: 'User data',
+    type: UserAuthSuccessResponse,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid session',
+    type: UnauthorizedResponse,
+  })
+  getUserAuth(@GetUser() user: User) {
+    return { user };
   }
 
   @Auth(CValidRoles.admin)
