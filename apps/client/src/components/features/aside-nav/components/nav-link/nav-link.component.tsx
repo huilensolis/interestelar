@@ -1,9 +1,19 @@
+'use client'
+
 import Link from 'next/link'
 
 import type { TNavLinkProps } from './nav-link.models'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export function NavLink({ href, children }: TNavLinkProps) {
-  const isActive = false
+  const [isActive, setIsActive] = useState<boolean>(false)
+
+  const pathName = usePathname()
+
+  useEffect(() => {
+    setIsActive(Boolean(href === pathName))
+  }, [pathName, href])
 
   return (
     <Link

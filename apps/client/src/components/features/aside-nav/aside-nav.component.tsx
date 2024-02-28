@@ -17,27 +17,27 @@ const NAV_LINKS: Array<{ title: string; icon: LucideIcon; href: string }> = [
   {
     title: 'Calendar',
     icon: Calendar,
-    href: 'calendar',
+    href: '/calendar',
   },
   {
     title: 'Roadmap',
     icon: Map,
-    href: 'map',
+    href: '/map',
   },
   {
     title: 'Settings',
     icon: Settings,
-    href: 'settings',
+    href: '/settings',
   },
   {
     title: 'Members',
     icon: UsersRound,
-    href: 'members',
+    href: '/members',
   },
   {
     title: 'New Project',
     icon: PlusCircle,
-    href: 'new project',
+    href: '/new project',
   },
 ]
 

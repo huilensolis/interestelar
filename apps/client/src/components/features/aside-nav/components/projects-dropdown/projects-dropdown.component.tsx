@@ -2,7 +2,7 @@
 
 import { DropDown } from '@/components/features/drop-down'
 import { Icon } from '@/components/ui/icon'
-import { ChevronDown, ChevronUp, GanttChart } from 'lucide-react'
+import { ChevronsUpDown, GanttChart } from 'lucide-react'
 import { NavLink } from '../nav-link'
 
 type Props = {
@@ -19,10 +19,7 @@ export function ProjectsDropDown({ projects }: Props) {
             Projects
           </span>
         </section>
-        <DropDown.toggleIcon
-          closeIcon={<Icon icon={ChevronUp} />}
-          openIcon={<Icon icon={ChevronDown} />}
-        />
+        <Icon icon={ChevronsUpDown} />
       </DropDown.ToggleBtn>
       <DropDown.DropeableZone className="flex flex-col gap-2 pl-3">
         {projects.map((project, i) => (
