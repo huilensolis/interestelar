@@ -10,8 +10,18 @@ export function DropDownProvider({ children }: { children: React.ReactNode }) {
     setShowItems(!showItems)
   }
 
+  function open() {
+    setShowItems(true)
+  }
+
+  function close() {
+    setShowItems(false)
+  }
+
   return (
-    <DropDownContext.Provider value={{ showItems, toggleShowItems }}>
+    <DropDownContext.Provider
+      value={{ showItems, toggleShowItems, open, close }}
+    >
       {children}
     </DropDownContext.Provider>
   )

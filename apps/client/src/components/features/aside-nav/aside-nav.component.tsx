@@ -46,22 +46,22 @@ export async function AsideNav(): Promise<React.JSX.Element> {
     {
       title: 'Screen Recorder',
       emote: '📸',
-      href: ClientRouting.app().project('Screen Recorder'),
+      href: ClientRouting.app().projects().project('Screen Recorder'),
     },
     {
       title: 'Memoir',
       emote: '📓',
-      href: ClientRouting.app().project('Memoir'),
+      href: ClientRouting.app().projects().project('Memoir'),
     },
     {
       title: 'Culinary Alchemy',
       emote: '🍜',
-      href: ClientRouting.app().project('Culinary Alchemy'),
+      href: ClientRouting.app().projects().project('Culinary Alchemy'),
     },
     {
       title: 'Portfolio',
       emote: '🚀',
-      href: ClientRouting.app().project('Portfolio'),
+      href: ClientRouting.app().projects().project('Portfolio'),
     },
   ]
 

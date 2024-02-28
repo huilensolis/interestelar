@@ -1,6 +1,6 @@
 'use client'
 
-import { type HTMLAttributes } from 'react'
+import { useEffect, type HTMLAttributes } from 'react'
 import {
   DropDownProvider as DropDownContextProvider,
   useDropDownContext,
@@ -11,15 +11,27 @@ function DropDownProvider({ children }: { children: React.ReactNode }) {
 }
 
 type TDropDownToggleBtnProps = HTMLAttributes<HTMLButtonElement> & {
+  defaultState?: 'open' | 'close'
   children: React.ReactNode
 }
 
 const DropDownToggleBtn = ({
+  defaultState = 'close',
   children,
   className,
   ...props
 }: TDropDownToggleBtnProps): JSX.Element => {
-  const { toggleShowItems } = useDropDownContext()
+  const { toggleShowItems, open, close } = useDropDownContext()
+
+  useEffect(() => {
+    if (defaultState === 'open') open()
+
+    if (defaultState === 'close') close()
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultState])
+
+  console.log('running toggle items')
 
   return (
     <button
