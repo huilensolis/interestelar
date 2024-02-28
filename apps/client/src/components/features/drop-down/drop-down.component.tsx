@@ -31,12 +31,13 @@ const DropDownToggleBtn = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultState])
 
-  console.log('running toggle items')
-
   return (
     <button
       onClick={toggleShowItems}
-      className={['', className].join(' ')}
+      className={[
+        'outline outline-2 outline-transparent focus:outline-blue-300',
+        className,
+      ].join(' ')}
       {...props}
     >
       {children}

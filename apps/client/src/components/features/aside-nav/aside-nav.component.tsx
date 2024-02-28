@@ -66,8 +66,8 @@ export async function AsideNav(): Promise<React.JSX.Element> {
   ]
 
   return (
-    <aside className="flex flex-col gap-2 h-full min-h-screen bg-gray-100 w-full max-w-80 p-2">
-      <header className="flex justify-between items-center py-4 px-1">
+    <aside className="flex flex-col gap-2 h-full min-h-screen bg-gray-100 w-full max-w-80 p-2 py-4">
+      <header className="flex justify-between items-center">
         <UserCard />
       </header>
       <Hr style="horizontal" />
