@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { CookieOptions, Response } from 'express';
 import { AuthCookieName } from 'src/app/common/models';
 
 export const adaptCookie = (access_token: string, response: Response) => {
@@ -12,9 +12,10 @@ export const deleteCookie = (response: Response) => {
 const cookieOptions = (() => {
   const webAppDomain = process.env.WEB_APP_DOMAIN;
 
-  const cookieOptions = {
+  const cookieOptions: CookieOptions = {
     httpOnly: true,
     domain: webAppDomain,
+    secure: true,
   };
 
   return cookieOptions;
