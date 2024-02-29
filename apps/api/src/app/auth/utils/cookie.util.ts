@@ -16,6 +16,7 @@ const cookieOptions = (() => {
     httpOnly: true,
     domain: webAppDomain,
     secure: true,
+    sameSite: 'none',
   };
 
   return cookieOptions;
