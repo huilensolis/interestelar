@@ -9,7 +9,6 @@ import {
   PlusCircle,
   type LucideIcon,
 } from 'lucide-react'
-import { ClientRouting } from '@/models/routes/client'
 import { UserCard } from './components/user-card'
 import { Icon } from '@/components/ui/icon'
 
@@ -42,36 +41,13 @@ const NAV_LINKS: Array<{ title: string; icon: LucideIcon; href: string }> = [
 ]
 
 export async function ProjectsAsideNav(): Promise<React.JSX.Element> {
-  const PROJECTS: Array<{ emote: string; title: string; href: string }> = [
-    {
-      title: 'Screen Recorder',
-      emote: '📸',
-      href: ClientRouting.app().projects().project('Screen Recorder'),
-    },
-    {
-      title: 'Memoir',
-      emote: '📓',
-      href: ClientRouting.app().projects().project('Memoir'),
-    },
-    {
-      title: 'Culinary Alchemy',
-      emote: '🍜',
-      href: ClientRouting.app().projects().project('Culinary Alchemy'),
-    },
-    {
-      title: 'Portfolio',
-      emote: '🚀',
-      href: ClientRouting.app().projects().project('Portfolio'),
-    },
-  ]
-
   return (
     <aside className="flex flex-col justify-between items-center gap-2 w-full h-full min-h-screen bg-gray-100 w-full max-w-80 p-2 py-4">
       <section className="w-full">
         <Hr style="horizontal" />
         <ul className="flex flex-col gap-2">
           <li>
-            <ProjectsDropDown projects={PROJECTS} />
+            <ProjectsDropDown />
           </li>
           {NAV_LINKS.map((item, i) => (
             <li key={i}>

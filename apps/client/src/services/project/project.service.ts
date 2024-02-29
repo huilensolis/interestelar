@@ -56,13 +56,13 @@ export class ProjectsService {
     }
   }
 
-  static async getUserProjectsList(): Promise<{
+  static async getUserProjectList(): Promise<{
     data: { projects: Project[] } | null
     error: string | null
   }> {
     try {
       const { data, status } = await axios.get<Project[] | null>(
-        ApiRouting.project.getUserProjectsList
+        ApiRouting.project.getUserProjectList
       )
 
       if (!data || status !== 200)
