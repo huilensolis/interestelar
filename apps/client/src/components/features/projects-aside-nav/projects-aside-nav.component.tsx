@@ -41,7 +41,7 @@ const NAV_LINKS: Array<{ title: string; icon: LucideIcon; href: string }> = [
   },
 ]
 
-export async function AsideNav(): Promise<React.JSX.Element> {
+export async function ProjectsAsideNav(): Promise<React.JSX.Element> {
   const PROJECTS: Array<{ emote: string; title: string; href: string }> = [
     {
       title: 'Screen Recorder',
