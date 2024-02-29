@@ -66,25 +66,30 @@ export async function AsideNav(): Promise<React.JSX.Element> {
   ]
 
   return (
-    <aside className="flex flex-col gap-2 h-full min-h-screen bg-gray-100 w-full max-w-80 p-2 py-4">
-      <header className="flex justify-between items-center">
-        <UserCard />
-      </header>
-      <Hr style="horizontal" />
-
-      <ul className="flex flex-col gap-2">
-        <li>
-          <ProjectsDropDown projects={PROJECTS} />
-        </li>
-        {NAV_LINKS.map((item, i) => (
-          <li key={i}>
-            <NavLink href={item.href}>
-              <Icon icon={item.icon} /> {item.title}
-            </NavLink>
-          </li>
-        ))}
+    <aside className="flex flex-col justify-between items-center gap-2 w-full h-full min-h-screen bg-gray-100 w-full max-w-80 p-2 py-4">
+      <section className="w-full">
         <Hr style="horizontal" />
-      </ul>
+        <ul className="flex flex-col gap-2">
+          <li>
+            <ProjectsDropDown projects={PROJECTS} />
+          </li>
+          {NAV_LINKS.map((item, i) => (
+            <li key={i}>
+              <NavLink href={item.href}>
+                <Icon icon={item.icon} /> {item.title}
+              </NavLink>
+            </li>
+          ))}
+          <Hr style="horizontal" />
+        </ul>
+      </section>
+      <section className="w-full">
+        <ul className="flex flex-col gap-2">
+          <li>
+            <UserCard />
+          </li>
+        </ul>
+      </section>
     </aside>
   )
 }
