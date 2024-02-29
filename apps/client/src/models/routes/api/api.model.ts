@@ -23,4 +23,17 @@ export class ApiRouting {
         this.getFullPath(`${userPath}/check/email/${email}`),
     }
   }
+
+  public static get project() {
+    const projectPath = 'projects'
+
+    return {
+      create: this.getFullPath(`${projectPath}`),
+      delete: (projectId: string) =>
+        this.getFullPath(`${projectPath}/${projectId}`),
+      getUserProjectsList: this.getFullPath(`${projectPath}/user`),
+      getById: (projectId: string) =>
+        this.getFullPath(`${projectPath}/${projectId}`),
+    }
+  }
 }
