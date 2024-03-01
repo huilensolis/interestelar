@@ -45,7 +45,8 @@ export class ProjectsService {
   ): Promise<{ data: { project: Project } | null; error: string | null }> {
     try {
       const { data, status } = await axios.get<Project | null>(
-        ApiRouting.project.getById(projectId)
+        ApiRouting.project.getById(projectId),
+        { withCredentials: true }
       )
 
       if (!data || status !== 200) throw new Error('Error getting project')
@@ -62,7 +63,8 @@ export class ProjectsService {
   }> {
     try {
       const { data, status } = await axios.get<Project[] | null>(
-        ApiRouting.project.getUserProjectList
+        ApiRouting.project.getUserProjectList,
+        { headers: { credentials: 'include' } }
       )
 
       if (!data || status !== 200)
