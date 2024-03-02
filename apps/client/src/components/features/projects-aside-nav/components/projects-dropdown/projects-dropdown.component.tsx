@@ -2,7 +2,7 @@
 
 import { DropDown } from '@/components/features/drop-down'
 import { Icon } from '@/components/ui/icon'
-import { ChevronsUpDown, GanttChart } from 'lucide-react'
+import { ChevronsUpDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { ClientRouting } from '@/models/routes/client'
@@ -19,9 +19,10 @@ export function ProjectsDropDown() {
   const pathName = usePathname()
 
   useEffect(() => {
-    const currentProjectId = pathName.split(
-      ClientRouting.app().projects().project('')
-    )[1]
+    const currentProjectId = pathName
+      .split(ClientRouting.app().projects().project(''))
+      .join('')
+      .split('/')[3]
 
     if (currentProjectId) {
       setProjectId(currentProjectId)
@@ -55,22 +56,30 @@ export function ProjectsDropDown() {
 
   return (
     <DropDown.Provider>
-      <DropDown.ToggleBtn
-        className={`w-full flex justify-between items-center p-1 hover:bg-gray-200 text-neutral-500 hover:text-neutral-700 rounded-sm transition-colors duration-75`}
-      >
-        {isFetching && <span>loading...</span>}
-        {error && <span>there has been an error</span>}
-        {currentProject && (
-          <section className="w-full flex items-center justify-start">
-            <Icon icon={GanttChart} />
-            <h2 className="flex gap-2 items-center p-1 outline outline-2 outline-transparent focus:outline-blue-300 focus-visible:outline-blue-300 rounded-md transition-colors duration-75 font-medium"></h2>
-          </section>
-        )}
-        <Icon icon={ChevronsUpDown} />
-      </DropDown.ToggleBtn>
-      <DropDown.DropeableZone className="flex flex-col gap-2 pl-3">
-        <ProjectList />
-      </DropDown.DropeableZone>
+      <div className="relative">
+        <DropDown.ToggleBtn
+          className={`w-full flex justify-between items-center p-1 hover:bg-gray-200 text-neutral-500 hover:text-neutral-700 rounded-sm transition-colors duration-75`}
+        >
+          {isFetching && <span>loading...</span>}
+          {error && <span>there has been an error</span>}
+          {currentProject && (
+            <section className="w-full flex items-center justify-start">
+              <h2 className="flex gap-2 items-center p-1 outline outline-2 outline-transparent focus:outline-blue-300 focus-visible:outline-blue-300 rounded-md transition-colors duration-75 font-medium">
+                <img
+                  src={`https://avatar.vercel.sh/${currentProject.name}`}
+                  alt={`${currentProject.name} image`}
+                  className="w-10 rounded-full"
+                />
+                {currentProject.name}{' '}
+              </h2>
+            </section>
+          )}
+          <Icon icon={ChevronsUpDown} />
+        </DropDown.ToggleBtn>
+        <DropDown.DropeableZone className="absolute top-full w-full">
+          <ProjectList />
+        </DropDown.DropeableZone>
+      </div>
     </DropDown.Provider>
   )
 }

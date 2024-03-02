@@ -37,16 +37,35 @@ export function ProjectList() {
   }, [])
 
   return (
-    <ul>
+    <ul className="flex flex-col relative mt-2 bg-gray-100">
       {isFetching && <span>loading...</span>}
-      {!isFetching &&
-        projectList.length > 0 &&
-        projectList.map((project) => <li key={project.id}>{project.name}</li>)}
+
+      {!isFetching && projectList && (
+        <ul className="flex flex-col gap-2 max-h-96 overflow-y-scroll border-x border-t border-neutral-300 rounded-tl-md rounded-tr-md p-1">
+          {projectList.length > 0 &&
+            projectList.map((project) => (
+              <li key={project.id}>
+                <NavLink
+                  href={ClientRouting.app().projects().project(project.id)}
+                >
+                  <img
+                    src={`https://avatar.vercel.sh/${project.name}`}
+                    alt={`${project.name} image`}
+                    className="w-10 rounded-full"
+                  />
+                  {project.name}
+                </NavLink>
+              </li>
+            ))}
+        </ul>
+      )}
+      <li className="w-full border border-neutral-300 rounded-br-md rounded-bl-md sticky bottom-0 left-0">
+        <NavLink href={ClientRouting.app().projects().create()}>
+          <Icon icon={CircleFadingPlus} className="h-10 w-10" />
+          New Project
+        </NavLink>
+      </li>
       {error && <span>error fetching projects list</span>}
-      <NavLink href={ClientRouting.app().projects().create()}>
-        <Icon icon={CircleFadingPlus} />
-        New Project
-      </NavLink>
     </ul>
   )
 }
