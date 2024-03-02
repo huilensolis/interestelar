@@ -1,1 +1,1 @@
-export const AuthCookieName = 'auth-cookie';
+export const AuthCookieName = 'auth_cookie';
