@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { NavLink } from '../../nav-link'
 import { Icon } from '@/components/ui/icon'
 import { CircleFadingPlus } from 'lucide-react'
+import { ClientRouting } from '@/models/routes/client'
 
 export function ProjectList() {
   const [projectList, setProjectList] = useState<Project[]>([])
@@ -42,9 +43,9 @@ export function ProjectList() {
         projectList.length > 0 &&
         projectList.map((project) => <li key={project.id}>{project.name}</li>)}
       {error && <span>error fetching projects list</span>}
-      <NavLink href="">
+      <NavLink href={ClientRouting.app().projects().create()}>
         <Icon icon={CircleFadingPlus} />
-        new project
+        New Project
       </NavLink>
     </ul>
   )

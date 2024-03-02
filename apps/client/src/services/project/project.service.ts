@@ -2,27 +2,31 @@ import { ApiRouting } from '@/models/routes/api/api.model'
 import { type Project } from '@/types/project'
 import axios from 'axios'
 
+type TCreateProjectResponse = {
+  name: Project['name']
+  emoji: Project['emoji']
+  id: Project['id']
+}
+
 export class ProjectsService {
-  static async create({
-    name,
-    emoji,
-  }: {
-    name: string
-    emoji: string
-  }): Promise<{
+  static async create({ name }: { name: string }): Promise<{
     error: string | null
+    data: { project: TCreateProjectResponse } | null
   }> {
     try {
-      const { status } = await axios.post(ApiRouting.project.create, {
-        emoji,
-        name,
-      })
+      const { status, data } = await axios.post<TCreateProjectResponse | null>(
+        ApiRouting.project.create,
+        {
+          emoji: '🎃',
+          name,
+        }
+      )
 
-      if (status !== 201) throw new Error('Error creating project')
+      if (status !== 201 || !data) throw new Error('Error creating project')
 
-      return { error: null }
+      return { error: null, data: { project: data } }
     } catch (error) {
-      return { error: 'Error creating project' }
+      return { error: 'Error creating project', data: null }
     }
   }
 
