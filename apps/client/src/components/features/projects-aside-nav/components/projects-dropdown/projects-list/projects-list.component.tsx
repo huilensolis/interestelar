@@ -33,12 +33,6 @@ export function ProjectList() {
 
         const { projects } = data
 
-        await new Promise((resolve) =>
-          setTimeout(() => {
-            resolve('')
-          }, 1000)
-        )
-
         setProjectList(projects)
         setError(false)
       } catch (error) {
