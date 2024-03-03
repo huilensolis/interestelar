@@ -11,7 +11,10 @@ export function BaseButton({
     <button
       aria-disabled={disabled}
       disabled={disabled}
-      className={[className, 'rounded-sm font-medium'].join(' ')}
+      className={[
+        className,
+        'rounded-sm font-medium disabled:cursor-not-allowed',
+      ].join(' ')}
       {...props}
     >
       {loading ? <LoaderSpinner /> : children}

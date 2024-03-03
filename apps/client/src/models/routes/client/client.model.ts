@@ -15,10 +15,16 @@ export class ClientRouting {
 
     return {
       home: () => `${appPath}/`,
-      projects: () => ({
-        home: () => `${appPath}/projects`,
-        project: (projectId: string) => `${appPath}/projects/${projectId}`,
-      }),
+      projects: () => {
+        const projectsPath = '/projects'
+
+        return {
+          home: () => `${appPath}/${projectsPath}`,
+          project: (projectId: string) =>
+            `${appPath}/${projectsPath}/${projectId}`,
+          create: () => `${appPath}/${projectsPath}/create`,
+        }
+      },
     }
   }
 }

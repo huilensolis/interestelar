@@ -22,7 +22,7 @@ export default function ProjectPage({
   }
 
   return (
-    <div className="flex flex-col pl-5 pt-5 pb-5 w-full">
+    <div className="flex flex-col pl-4 pt-4 pb-4 w-full">
       <SearchBar />
       <header className="flex pr-5 mt-5">
         <section className="flex flex-col">

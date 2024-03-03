@@ -14,9 +14,10 @@ export function PrimaryButton({
     <BaseButton
       loading={loading}
       disabled={disabled}
-      className={['bg-neutral-700 text-neutral-50 py-2 px-4', className].join(
-        ' '
-      )}
+      className={[
+        'bg-neutral-600 text-neutral-50 py-2 px-4 flex items-center justify-center disabled:bg-neutral-500',
+        className,
+      ].join(' ')}
       {...props}
     >
       {children}

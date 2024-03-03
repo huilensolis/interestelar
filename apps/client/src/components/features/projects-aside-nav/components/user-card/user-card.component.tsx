@@ -38,7 +38,7 @@ export function UserCard() {
       <DropDown.Provider>
         <DropDown.ToggleBtn
           closeOnBlur
-          className="w-full flex items-center justify-between hover:bg-gray-200 transition-colors duration-75 py-1 px-1 rounded-md"
+          className="w-full flex items-center justify-between hover:bg-gray-200 transition-colors duration-75 py-1 px-1 rounded-md z-10"
         >
           <article className="flex gap-2 items-center">
             <img
@@ -54,7 +54,7 @@ export function UserCard() {
             </section>
           </article>
           <Icon icon={ChevronsUpDown} />
-          <DropDown.DropeableZone className="flex flex-col gap-2 p-1 absolute top-full mt-1 left-0 w-full rounded-lg shadow-2xl shadow-neutral-400 bg-gray-100 border border-neutral-200">
+          <DropDown.DropeableZone className="flex flex-col gap-2 p-1 absolute bottom-full mb-2 left-0 w-full z-0 rounded-lg shadow-lg shadow-neutral-300 bg-gray-100 border border-neutral-200">
             {USER_LINKS.map((item, i) => (
               <li key={i}>
                 <NavLink href={item.href}>

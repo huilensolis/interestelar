@@ -1,5 +1,6 @@
 export class ApiRouting {
-  private static readonly apiUrl = 'http://localhost:3001/api'
+  private static readonly apiUrl =
+    process.env.DEPLOY_URL ?? 'https://localhost:3000/api'
 
   private static getFullPath(path: string) {
     return `${this.apiUrl}/${path}`
@@ -21,6 +22,19 @@ export class ApiRouting {
         this.getFullPath(`${userPath}/check/username/${username}`),
       checkEmailAvailability: (email: string) =>
         this.getFullPath(`${userPath}/check/email/${email}`),
+    }
+  }
+
+  public static get project() {
+    const projectPath = 'projects'
+
+    return {
+      create: this.getFullPath(`${projectPath}`),
+      delete: (projectId: string) =>
+        this.getFullPath(`${projectPath}/${projectId}`),
+      getUserProjectList: this.getFullPath(`${projectPath}/user`),
+      getById: (projectId: string) =>
+        this.getFullPath(`${projectPath}/${projectId}`),
     }
   }
 }
