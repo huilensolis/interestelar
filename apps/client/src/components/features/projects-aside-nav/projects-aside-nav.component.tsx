@@ -42,7 +42,7 @@ const NAV_LINKS: Array<{ title: string; icon: LucideIcon; href: string }> = [
 
 export async function ProjectsAsideNav(): Promise<React.JSX.Element> {
   return (
-    <aside className="flex flex-col justify-between items-center gap-2 w-full h-full min-h-screen bg-gray-100 w-full max-w-80 p-2 py-4">
+    <aside className="flex flex-col justify-between items-center gap-2 w-full h-full min-h-screen p-2 py-4">
       <section className="w-full">
         <Hr style="horizontal" />
         <ul className="flex flex-col gap-2">

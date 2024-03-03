@@ -2,7 +2,7 @@
 
 import { DropDown } from '@/components/features/drop-down'
 import { Icon } from '@/components/ui/icon'
-import { ChevronsUpDown } from 'lucide-react'
+import { ChevronsUpDown, LayoutGrid } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { ClientRouting } from '@/models/routes/client'
@@ -64,7 +64,7 @@ export function ProjectsDropDown() {
     <DropDown.Provider>
       <div className="relative">
         <DropDown.ToggleBtn
-          className={`w-full flex justify-between items-center hover:bg-gray-200 text-neutral-500 hover:text-neutral-700 rounded-md transition-colors duration-75`}
+          className={`w-full flex justify-between items-center hover:bg-gray-200 text-neutral-500 hover:text-neutral-700 rounded-sm transition-colors duration-75`}
         >
           {isLoading && (
             <div className="flex items-center gap-2 px-1 py-2 w-full animate-pulse duration-300">
@@ -75,7 +75,12 @@ export function ProjectsDropDown() {
               </div>
             </div>
           )}
-          {error && <span>Projects</span>}
+          {error && (
+            <div className="w-full flex px-1 py-1 items-center">
+              <Icon icon={LayoutGrid} />
+              <span className="px-2 font-medium">Projects</span>
+            </div>
+          )}
           {currentProject && (
             <section className="w-full flex items-center justify-start py-1">
               <h2 className="flex gap-2 items-center p-1 outline outline-2 outline-transparent focus:outline-blue-300 focus-visible:outline-blue-300 rounded-md transition-colors duration-75 font-medium">
