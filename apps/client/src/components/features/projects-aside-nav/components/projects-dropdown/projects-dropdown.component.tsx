@@ -86,7 +86,9 @@ export function ProjectsDropDown() {
                 />
                 <div className="flex flex-col items-start h-full">
                   <span className="text-sm leading-5">Projects</span>
-                  <h4 className="leading-5">{currentProject.name}</h4>
+                  <h4 className="leading-5 text-neutral-700">
+                    {currentProject.name}
+                  </h4>
                 </div>
               </h2>
             </section>
