@@ -19,7 +19,9 @@ export function ProjectList() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const [inputSearchValue, setInputSearchValue] = useState<string>('')
-  const [searchedProjects, setSearchedProjects] = useState<Project[]>([])
+  const [searchedProjects, setSearchedProjects] = useState<Project[] | null>(
+    null
+  )
 
   useEffect(() => {
     async function getProjectList() {
@@ -70,11 +72,13 @@ export function ProjectList() {
             .startsWith(debouncedSearchProjectValue.toLowerCase().trim())
         )
       )
-      if (
-        debouncedSearchProjectValue ||
-        debouncedSearchProjectValue.length === 0
-      ) {
+      if (debouncedSearchProjectValue) {
         setIsLoading(false)
+      }
+
+      if (debouncedSearchProjectValue.length === 0) {
+        setIsLoading(false)
+        setSearchedProjects(null)
       }
     }
   }, [debouncedSearchProjectValue])
@@ -103,19 +107,23 @@ export function ProjectList() {
               ))}
           {!isLoading &&
             projectList.length > 0 &&
-            searchedProjects.length === 0 &&
+            !searchedProjects &&
             projectList.map((project) => (
               <li key={project.id}>
                 <ProjectItem project={project} />
               </li>
             ))}
           {!isLoading &&
+            searchedProjects &&
             searchedProjects.length > 0 &&
             searchedProjects.map((project) => (
               <li key={project.id}>
                 <ProjectItem project={project} />
               </li>
             ))}
+          {!isLoading && searchedProjects && searchedProjects.length === 0 && (
+            <span className="p-2">not found</span>
+          )}
           {error && <span>error fetching projects list</span>}
         </ul>
       </Box>
