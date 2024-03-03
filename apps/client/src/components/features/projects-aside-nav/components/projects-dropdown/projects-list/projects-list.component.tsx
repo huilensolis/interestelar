@@ -5,30 +5,44 @@ import { type Project } from '@/types/project'
 import { useEffect, useState } from 'react'
 import { NavLink } from '../../nav-link'
 import { Icon } from '@/components/ui/icon'
-import { CircleFadingPlus } from 'lucide-react'
 import { ClientRouting } from '@/models/routes/client'
+import { Box } from '@/components/ui/box'
+import { ArrowUpRight, Search } from 'lucide-react'
+import { TextInput } from '@/components/ui/text-input'
+import { useDebounce } from '@/hooks/use-debounce'
+import { ProjectItem } from '../project-item'
+import { ProjectSkeleton } from '../project-skeleton'
 
 export function ProjectList() {
   const [projectList, setProjectList] = useState<Project[]>([])
   const [error, setError] = useState<boolean>(false)
-  const [isFetching, setIsFetching] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  const [inputSearchValue, setInputSearchValue] = useState<string>('')
+  const [searchedProjects, setSearchedProjects] = useState<Project[]>([])
 
   useEffect(() => {
     async function getProjectList() {
       try {
-        setIsFetching(true)
+        setIsLoading(true)
         const { data, error } = await ProjectsService.getUserProjectList()
 
         if (!data || error) throw new Error('error getting project list')
 
         const { projects } = data
 
+        await new Promise((resolve) =>
+          setTimeout(() => {
+            resolve('')
+          }, 1000)
+        )
+
         setProjectList(projects)
         setError(false)
       } catch (error) {
         setError(true)
       } finally {
-        setIsFetching(false)
+        setIsLoading(false)
       }
     }
 
@@ -36,36 +50,86 @@ export function ProjectList() {
     getProjectList()
   }, [])
 
+  const { debouncedValue: debouncedSearchProjectValue } = useDebounce({
+    delay: 300,
+    value: inputSearchValue,
+  })
+
+  function handleInputSearchOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setIsLoading(true)
+    setInputSearchValue(e.target.value)
+  }
+
+  useEffect(() => {
+    if (projectList.length > 0) {
+      setSearchedProjects(
+        projectList.filter((project) =>
+          project.name
+            .toLowerCase()
+            .trim()
+            .startsWith(debouncedSearchProjectValue.toLowerCase().trim())
+        )
+      )
+      if (
+        debouncedSearchProjectValue ||
+        debouncedSearchProjectValue.length === 0
+      ) {
+        setIsLoading(false)
+      }
+    }
+  }, [debouncedSearchProjectValue])
+
   return (
     <ul className="flex flex-col relative mt-2 bg-gray-100">
-      {isFetching && <span>loading...</span>}
-
-      {!isFetching && projectList && (
-        <ul className="flex flex-col gap-2 max-h-96 overflow-y-scroll border-x border-t border-neutral-300 rounded-tl-md rounded-tr-md p-1">
-          {projectList.length > 0 &&
+      <Box className="flex items-center w-full p-2 py-1 rounded-bl-none rounded-br-none">
+        <Icon icon={Search} className="text-neutral-500" />
+        <TextInput.Input
+          isDirty={false}
+          hasError={false}
+          className="bg-transparent border-none focus:outline-transparent"
+          placeholder="Search projects"
+          onChange={handleInputSearchOnChange}
+        />
+      </Box>
+      <Box className="border-b-0 rounded-tl-none rounded-tr-none p-1 border-t-0 rounded-b-none">
+        <ul className="flex flex-col max-h-96 overflow-y-auto">
+          {isLoading &&
+            Array(4)
+              .fill(' ')
+              .map((_, i) => (
+                <li key={i} className="px-1">
+                  <ProjectSkeleton />
+                </li>
+              ))}
+          {!isLoading &&
+            projectList.length > 0 &&
+            searchedProjects.length === 0 &&
             projectList.map((project) => (
               <li key={project.id}>
-                <NavLink
-                  href={ClientRouting.app().projects().project(project.id)}
-                >
-                  <img
-                    src={`https://avatar.vercel.sh/${project.name}`}
-                    alt={`${project.name} image`}
-                    className="w-10 rounded-full"
-                  />
-                  {project.name}
-                </NavLink>
+                <ProjectItem project={project} />
               </li>
             ))}
+          {!isLoading &&
+            searchedProjects.length > 0 &&
+            searchedProjects.map((project) => (
+              <li key={project.id}>
+                <ProjectItem project={project} />
+              </li>
+            ))}
+          {error && <span>error fetching projects list</span>}
         </ul>
-      )}
-      <li className="w-full border border-neutral-300 rounded-br-md rounded-bl-md sticky bottom-0 left-0">
-        <NavLink href={ClientRouting.app().projects().create()}>
-          <Icon icon={CircleFadingPlus} className="h-10 w-10" />
-          New Project
-        </NavLink>
-      </li>
-      {error && <span>error fetching projects list</span>}
+      </Box>
+      <Box className="rounded-tr-none rounded-tl-none">
+        <li className="w-full sticky bottom-0 left-0">
+          <NavLink
+            href={ClientRouting.app().projects().create()}
+            className="py-2"
+          >
+            <Icon icon={ArrowUpRight} className="h-10 w-10" />
+            New Project
+          </NavLink>
+        </li>
+      </Box>
     </ul>
   )
 }
