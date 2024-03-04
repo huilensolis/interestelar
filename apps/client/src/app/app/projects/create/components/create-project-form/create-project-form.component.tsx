@@ -47,6 +47,8 @@ export function CreateNewProjectForm() {
         <TextInput.Input
           {...register('name', {
             required: 'Project Name required',
+            maxLength: { value: 70, message: 'Max Project Name length is 70' },
+            minLength: { value: 1, message: 'Min Project Name length is 1' },
           })}
           placeholder="Name"
           hasError={Boolean(errors.name)}
