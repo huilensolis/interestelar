@@ -11,7 +11,7 @@ import { ArrowUpRight, Search } from 'lucide-react'
 import { TextInput } from '@/components/ui/text-input'
 import { useDebounce } from '@/hooks/use-debounce'
 import { ProjectItem } from '../project-item'
-import { ProjectSkeleton } from '../project-skeleton'
+import { ProjectItemSkeleton } from '../project-item-skeleton'
 
 export function ProjectList() {
   const [projectList, setProjectList] = useState<Project[]>([])
@@ -75,6 +75,8 @@ export function ProjectList() {
         setSearchedProjects(null)
       }
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchProjectValue])
 
   return (
@@ -96,7 +98,7 @@ export function ProjectList() {
               .fill(' ')
               .map((_, i) => (
                 <li key={i} className="px-1">
-                  <ProjectSkeleton />
+                  <ProjectItemSkeleton />
                 </li>
               ))}
           {!isLoading &&

@@ -36,6 +36,7 @@ const DropDownToggleBtn = ({
       onClick={toggleShowItems}
       className={[
         'outline outline-2 outline-transparent focus:outline-blue-300',
+
         className,
       ].join(' ')}
       {...props}
