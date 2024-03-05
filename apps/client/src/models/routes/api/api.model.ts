@@ -12,6 +12,7 @@ export class ApiRouting {
       signUp: this.getFullPath(`${authPath}/sign-up`),
       signIn: this.getFullPath(`${authPath}/sign-in`),
       signOut: this.getFullPath(`${authPath}/sign-out`),
+      getUser: this.getFullPath(`${authPath}/user`),
     }
   }
 

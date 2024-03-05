@@ -110,7 +110,7 @@ export class AuthController {
     type: UnauthorizedResponse,
   })
   getUserAuth(@GetUser() user: User) {
-    return { user };
+    return user;
   }
 
   @Auth(CValidRoles.admin)
