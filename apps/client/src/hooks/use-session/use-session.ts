@@ -27,7 +27,9 @@ export function useSession() {
     else return { error: null }
   }
 
-  function signOut() {}
+  async function signOut() {
+    await SessionService.signOut()
+  }
 
   function validateSession() {}
 

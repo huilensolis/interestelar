@@ -36,4 +36,14 @@ export class SessionService {
     if (status === 201) return { error: null }
     else return { error: new Error('error signing up') }
   }
+
+  static async signOut(): Promise<void> {
+    try {
+      const { status } = await axios.post(ApiRouting.auth.signOut)
+
+      if (status !== 201) throw new Error('error signing out')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

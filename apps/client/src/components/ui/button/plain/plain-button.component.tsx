@@ -8,7 +8,7 @@ export function PlainButton({
   children,
   ...props
 }: TBaseButtonProps) {
-  const allProps = { loading, disabled, props }
+  const allProps = { loading, disabled, ...props }
 
   return (
     <BaseButton
