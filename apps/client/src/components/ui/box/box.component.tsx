@@ -9,7 +9,7 @@ export function Box({ children, className, ...props }: TProps) {
     <div
       className={[
         className,
-        'bg-gray-100 border border-neutral-300 shadow-2xl shadow-gray-300 rounded-lg',
+        'bg-gray-100 border border-neutral-200 shadow-2xl shadow-neutral-300 rounded-lg',
       ].join(' ')}
       {...props}
     >

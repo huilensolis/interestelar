@@ -12,18 +12,16 @@ function DropDownProvider({ children }: { children: React.ReactNode }) {
 
 type TDropDownToggleBtnProps = HTMLAttributes<HTMLButtonElement> & {
   defaultState?: 'open' | 'close'
-  closeOnBlur?: boolean
   children: React.ReactNode
 }
 
 const DropDownToggleBtn = ({
   defaultState = 'close',
-  closeOnBlur = false,
   children,
   className,
   ...props
 }: TDropDownToggleBtnProps): JSX.Element => {
-  const { toggleShowItems, open, close, showItems } = useDropDownContext()
+  const { toggleShowItems, open, close } = useDropDownContext()
 
   useEffect(() => {
     if (defaultState === 'open') open()
@@ -33,18 +31,12 @@ const DropDownToggleBtn = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultState])
 
-  function handleBLur() {
-    if (closeOnBlur && showItems) {
-      close()
-    }
-  }
-
   return (
     <button
       onClick={toggleShowItems}
-      onBlur={handleBLur}
       className={[
         'outline outline-2 outline-transparent focus:outline-blue-300',
+
         className,
       ].join(' ')}
       {...props}

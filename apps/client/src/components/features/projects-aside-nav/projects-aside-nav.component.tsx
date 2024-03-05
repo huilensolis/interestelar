@@ -1,6 +1,6 @@
 import { Hr } from '@/components/ui/hr'
-import { NavLink } from './components/nav-link'
-import { ProjectsDropDown } from './components/projects-dropdown'
+import { NavLink } from '../nav-link'
+import { ProjectsDropDown } from '../projects-drop-down'
 import {
   Calendar,
   Map,
@@ -9,7 +9,7 @@ import {
   PlusCircle,
   type LucideIcon,
 } from 'lucide-react'
-import { UserCard } from './components/user-card'
+import { UserCard } from '../user-card'
 import { Icon } from '@/components/ui/icon'
 
 const NAV_LINKS: Array<{ title: string; icon: LucideIcon; href: string }> = [

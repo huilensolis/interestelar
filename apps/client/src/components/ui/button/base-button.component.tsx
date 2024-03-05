@@ -14,6 +14,7 @@ export function BaseButton({
       className={[
         className,
         'rounded-sm font-medium disabled:cursor-not-allowed',
+        loading && 'flex items-center justify-center',
       ].join(' ')}
       {...props}
     >

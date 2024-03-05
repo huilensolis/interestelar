@@ -1,4 +1,5 @@
 import { SessionService } from '@/services/session/session.service'
+import { type User } from '@/types/user'
 
 export function useSession() {
   async function signUp({
@@ -27,9 +28,17 @@ export function useSession() {
     else return { error: null }
   }
 
-  function signOut() {}
+  async function signOut() {
+    await SessionService.signOut()
+  }
 
   function validateSession() {}
 
-  return { signUp, signIn, signOut, validateSession }
+  async function getUser(): Promise<{ user: User | null }> {
+    const { user } = await SessionService.getUser()
+
+    return { user }
+  }
+
+  return { signUp, signIn, signOut, validateSession, getUser }
 }

@@ -9,6 +9,7 @@ import { ClientRouting } from '@/models/routes/client'
 import { ProjectsService } from '@/services/project'
 import { type Project } from '@/types/project'
 import { ProjectList } from './projects-list'
+import { ProjectNavSkelenton } from './project-nav-skeleton'
 
 export function ProjectsDropDown() {
   const [projectId, setProjectId] = useState<string | null>(null)
@@ -66,15 +67,7 @@ export function ProjectsDropDown() {
         <DropDown.ToggleBtn
           className={`w-full flex justify-between items-center hover:bg-gray-200 text-neutral-500 hover:text-neutral-700 rounded-sm transition-colors duration-75`}
         >
-          {isLoading && (
-            <div className="flex items-center gap-2 px-1 py-2 w-full animate-pulse duration-300">
-              <div className="rounded-full h-10 w-10 bg-gray-300" />
-              <div className="flex flex-col gap-1 items-start h-full">
-                <div className="w-14 h-3 rounded-full bg-gray-300" />
-                <div className="w-40 h-6 rounded-full bg-gray-300" />
-              </div>
-            </div>
-          )}
+          {isLoading && <ProjectNavSkelenton />}
           {error && (
             <div className="w-full flex px-1 py-1 items-center">
               <Icon icon={LayoutGrid} />
@@ -87,7 +80,7 @@ export function ProjectsDropDown() {
                 <img
                   src={`https://avatar.vercel.sh/${currentProject.name}`}
                   alt={`${currentProject.name} image`}
-                  className="w-10 rounded-full"
+                  className="w-10 h-10 rounded-full"
                 />
                 <div className="flex flex-col items-start h-full">
                   <span className="text-sm leading-5">Projects</span>
