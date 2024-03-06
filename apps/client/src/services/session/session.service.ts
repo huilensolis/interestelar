@@ -60,4 +60,23 @@ export class SessionService {
       return { user: null }
     }
   }
+
+  static async validateSessionOnEdgeRuntime({
+    cookie = undefined,
+  }: {
+    cookie?: string
+  }): Promise<{ isSessionValid: boolean }> {
+    try {
+      const { status } = await fetch(ApiRouting.auth.checkSession, {
+        headers: cookie ? { Cookie: cookie } : {},
+      })
+
+      if (status !== 200) throw new Error('error validating session')
+
+      return { isSessionValid: true }
+    } catch (error) {
+      console.log(error)
+      return { isSessionValid: false }
+    }
+  }
 }
