@@ -1,62 +1,53 @@
 import { ClientRouting } from '@/models/routes/client'
-import type { Redirect } from 'next'
+import { protectResourceFromAuthenticatedUsers } from '@/utils/guards/auth/auth'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: ReactNode
-}): React.JSX.Element | Redirect {
-  // const cookiesJwt = cookies().get('jwt')
-  // if (cookiesJwt) {
-  //   try {
-  //     // const { isTokenValid } = await validateToken(cookiesJwt)
-  //     // if (isTokenValid) {
-  //     //   throw new Error('token valid')
-  //     // }
-  //   } catch (error) {
-  //     return redirect(ClientRouting.app().home())
-  //   }
-  // }
-
+}) {
+  await protectResourceFromAuthenticatedUsers()
   return (
-    <article className="grid grid-cols-1 md:grid-cols-2 grid-rows-1 md:grid-rows-1 w-full h-full min-h-screen">
-      <main className="flex flex-col h-full w-full min-h-screen">
-        <header>
-          <nav className="p-4">
-            <ul className="flex gap-2 w-full justify-end">
-              <li>
-                <Link
-                  href={ClientRouting.auth().signIn()}
-                  className="text-neutral-600 hover:text-neutral-500 transition-colors duration-75 px-3 py-1 rounded-md font-medium"
-                >
-                  Sign In
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={ClientRouting.auth().signUp()}
-                  className="text-neutral-600 bg-neutral-100 hover:brightness-95 transition-colors duration-75 px-3 py-1 rounded-md font-medium"
-                >
-                  Sign Up
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
-        <section className="h-full">{children}</section>
-      </main>
-      <section className="md:flex hidden w-full h-full">
-        <Aside />
-      </section>
-    </article>
+    <div className="w-full h-full min-h-screen flex items-center justify-center xl:p-4">
+      <article className="grid grid-cols-1 xl:grid-cols-2 grid-rows-1 xl:grid-rows-1 w-full items-center xl:max-w-[1922px] h-screen xl:h-full max-h-screen xl:max-h-[1200px]">
+        <section className="flex flex-col w-full h-full">
+          <header>
+            <nav className="p-4">
+              <ul className="flex gap-2 w-full justify-end">
+                <li>
+                  <Link
+                    href={ClientRouting.auth().signIn()}
+                    className="text-neutral-600 hover:text-neutral-500 transition-colors duration-75 px-3 py-1 rounded-md font-medium"
+                  >
+                    Sign In
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={ClientRouting.auth().signUp()}
+                    className="text-neutral-600 bg-neutral-100 hover:brightness-95 transition-colors duration-75 px-3 py-1 rounded-md font-medium"
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </header>
+          <main className="h-full">{children}</main>
+        </section>
+        <section className="xl:flex hidden w-full h-full">
+          <Aside />
+        </section>
+      </article>
+    </div>
   )
 }
 
 function Aside(): React.JSX.Element {
   return (
-    <article className="h-full w-full relative">
+    <article className="h-full w-full relative rounded-sm overflow-hidden">
       <img
         src="https://cdn.dribbble.com/userupload/12793873/file/original-5cc23fe9b782d345c7009c851edf3652.png?resize=1024x768"
         width={640}
@@ -64,7 +55,7 @@ function Aside(): React.JSX.Element {
         alt="dark gradient"
         className="w-full h-full object-cover object-center"
       />
-      <span className="absolute bottom-0 right-0 p-4 backdrop-blur">
+      <span className="absolute bottom-0 right-0 p-4 backdrop-blur w-full">
         image by{' '}
         <a
           className="text-blue-500 hover:underline"
