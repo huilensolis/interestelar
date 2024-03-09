@@ -15,16 +15,17 @@ export class ClientRouting {
 
     return {
       home: () => `${appPath}/`,
-      projects: () => {
-        const projectsPath = '/projects'
+    }
+  }
 
-        return {
-          home: () => `${appPath}/${projectsPath}`,
-          project: (projectId: string) =>
-            `${appPath}/${projectsPath}/${projectId}`,
-          create: () => `${appPath}/${projectsPath}/create`,
-        }
-      },
+  public static projects() {
+    const projectsPath = '/app/projects'
+    return {
+      home: () => `${projectsPath}`,
+      project: (projectId: string) => `${projectsPath}/${projectId}`,
+      create: () => `${projectsPath}/create`,
+      members: () => `${projectsPath}/members`,
+      settings: () => `${projectsPath}/settings`,
     }
   }
 }

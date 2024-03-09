@@ -67,7 +67,6 @@ export function ProjectList() {
         )
       )
     } else {
-      console.log('setting searced projects')
       setSearchedProjects([])
     }
 
@@ -128,10 +127,7 @@ export function ProjectList() {
       </Box>
       <Box className="rounded-tr-none rounded-tl-none">
         <li className="w-full sticky bottom-0 left-0">
-          <NavLink
-            href={ClientRouting.app().projects().create()}
-            className="py-2"
-          >
+          <NavLink href={ClientRouting.projects().create()} className="py-2">
             <Icon icon={ArrowUpRight} className="h-10 w-10" />
             New Project
           </NavLink>

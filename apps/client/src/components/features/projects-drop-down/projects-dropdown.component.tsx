@@ -10,6 +10,7 @@ import { ProjectsService } from '@/services/project'
 import { type Project } from '@/types/project'
 import { ProjectList } from './projects-list'
 import { ProjectNavSkelenton } from './project-nav-skeleton'
+import { Avatar } from '@/components/ui/avatar/signle'
 
 export function ProjectsDropDown() {
   const [projectId, setProjectId] = useState<string | null>(null)
@@ -20,10 +21,9 @@ export function ProjectsDropDown() {
   const pathName = usePathname()
 
   useEffect(() => {
-    const currentProjectId = pathName
-      .split(ClientRouting.app().projects().project(''))
-      .join('')
-      .split('/')[3]
+    const currentProjectId = pathName.split(
+      ClientRouting.projects().project('')
+    )[1]
 
     if (currentProjectId) {
       setProjectId(currentProjectId)
@@ -40,12 +40,6 @@ export function ProjectsDropDown() {
         const { project } = data
 
         if (!project) throw new Error('project not found')
-
-        await new Promise((resolve) =>
-          setTimeout(() => {
-            resolve('')
-          }, 1000)
-        )
 
         setCurrentProject(project)
       } catch (error) {
@@ -77,10 +71,9 @@ export function ProjectsDropDown() {
           {currentProject && (
             <section className="w-full flex items-center justify-start py-1">
               <h2 className="flex gap-2 items-center p-1 outline outline-2 outline-transparent focus:outline-blue-300 focus-visible:outline-blue-300 rounded-md transition-colors duration-75 font-medium">
-                <img
+                <Avatar
                   src={`https://avatar.vercel.sh/${currentProject.name}`}
                   alt={`${currentProject.name} image`}
-                  className="w-10 h-10 rounded-full"
                 />
                 <div className="flex flex-col items-start h-full">
                   <span className="text-sm leading-5">Projects</span>

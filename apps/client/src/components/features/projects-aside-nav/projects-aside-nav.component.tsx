@@ -1,42 +1,21 @@
 import { Hr } from '@/components/ui/hr'
 import { NavLink } from '../nav-link'
 import { ProjectsDropDown } from '../projects-drop-down'
-import {
-  Calendar,
-  Map,
-  Settings,
-  UsersRound,
-  PlusCircle,
-  type LucideIcon,
-} from 'lucide-react'
+import { Settings, UsersRound, type LucideIcon } from 'lucide-react'
 import { UserCard } from '../user-card'
 import { Icon } from '@/components/ui/icon'
+import { ClientRouting } from '@/models/routes/client'
 
 const NAV_LINKS: Array<{ title: string; icon: LucideIcon; href: string }> = [
   {
-    title: 'Calendar',
-    icon: Calendar,
-    href: '/calendar',
-  },
-  {
-    title: 'Roadmap',
-    icon: Map,
-    href: '/map',
-  },
-  {
     title: 'Settings',
     icon: Settings,
-    href: '/settings',
+    href: ClientRouting.projects().settings(),
   },
   {
     title: 'Members',
     icon: UsersRound,
-    href: '/members',
-  },
-  {
-    title: 'New Project',
-    icon: PlusCircle,
-    href: '/new project',
+    href: ClientRouting.projects().members(),
   },
 ]
 
