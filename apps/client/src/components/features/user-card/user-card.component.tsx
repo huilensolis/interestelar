@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react'
 import { useSession } from '@/hooks/use-session'
 import { type User } from '@/types/user'
 import { UserCardSkeleton } from './components/user-card-skeleton'
+import { Avatar } from '@/components/ui/avatar/signle'
 
 export function UserCard() {
   const [userInfo, setUserInfo] = useState<User | null>(null)
@@ -40,10 +41,9 @@ export function UserCard() {
         <DropDown.ToggleBtn className="w-full flex items-center justify-between hover:bg-gray-200 transition-colors duration-75 py-1 px-1 rounded-md z-10">
           {!loading && userInfo && (
             <article className="flex gap-2 items-center">
-              <img
+              <Avatar
                 src={`https://avatar.vercel.sh/${userInfo.id}`}
                 alt="alt"
-                className="w-12 h-12 object-cover object-center rounded-full"
               />
               <section className="h-full flex flex-col justify-center items-start">
                 <h4 className="text-neutral-700 text-lg font-semibold leading-5">

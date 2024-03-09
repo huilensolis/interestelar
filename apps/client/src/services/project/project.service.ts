@@ -45,19 +45,23 @@ export class ProjectsService {
   }
 
   static async getById(
-    projectId: string
+    projectId: string,
+    cookie?: string
   ): Promise<{ data: { project: Project } | null; error: string | null }> {
     try {
       const { data, status } = await axios.get<Project | null>(
         ApiRouting.project.getById(projectId),
-        { withCredentials: true }
+        { headers: cookie ? { Cookie: cookie } : {} }
       )
 
-      if (!data || status !== 200) throw new Error('Error getting project')
+      if (!data || status !== 200)
+        throw new Error(
+          'Error getting project, api response status code is not 200'
+        )
 
       return { data: { project: data }, error: null }
     } catch (error) {
-      return { data: null, error: 'error getting project by id' }
+      return { data: null, error: error as string }
     }
   }
 

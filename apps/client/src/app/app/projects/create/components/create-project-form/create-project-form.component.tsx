@@ -30,7 +30,8 @@ export function CreateNewProjectForm() {
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       if (error || !data) throw new Error('error creating project')
 
-      router.push(ClientRouting.app().projects().project(data.project.id))
+      setError(null)
+      router.push(ClientRouting.projects().project(data.project.id))
     } catch (error) {
       setError('there is been an error trying to create the project')
     } finally {
