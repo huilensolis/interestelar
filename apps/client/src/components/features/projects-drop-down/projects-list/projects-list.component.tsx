@@ -66,19 +66,22 @@ export function ProjectList() {
             .startsWith(debouncedSearchProjectValue.toLowerCase().trim())
         )
       )
-      if (debouncedSearchProjectValue) {
-        setIsLoading(false)
-      }
+    } else {
+      console.log('setting searced projects')
+      setSearchedProjects([])
+    }
 
-      if (debouncedSearchProjectValue.length === 0) {
-        setIsLoading(false)
-        setSearchedProjects(null)
-      }
+    if (debouncedSearchProjectValue) {
+      setIsLoading(false)
+    }
+
+    if (debouncedSearchProjectValue.length === 0) {
+      setIsLoading(false)
+      setSearchedProjects(null)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchProjectValue])
-
   return (
     <ul className="flex flex-col relative mt-2 bg-gray-100">
       <Box className="flex items-center w-full p-2 py-1 rounded-bl-none rounded-br-none">
