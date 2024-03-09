@@ -35,7 +35,7 @@ export class ProjectsService {
       user: { id: userId },
     });
 
-    if (userProjects?.[0] == null) {
+    if (userProjects == null) {
       throw new NotFoundException();
     }
 
