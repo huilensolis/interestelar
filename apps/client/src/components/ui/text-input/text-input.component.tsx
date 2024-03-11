@@ -21,12 +21,27 @@ const Input = forwardRef<HTMLInputElement, TTextInputProps>(function Component(
   )
 })
 
-const Error = ({ children }: { children: React.ReactNode }) => {
-  return <span className="text-red-500">{children}</span>
+type TErrorProps = React.HTMLAttributes<HTMLSpanElement> & {
+  children: React.ReactNode
 }
 
-const Info = ({ children }: { children: React.ReactNode }) => {
-  return <span className="text-neutral-500">{children}</span>
+const Error = ({ children, className, ...props }: TErrorProps) => {
+  return (
+    <span className={['text-red-500', className].join(' ')} {...props}>
+      {children}
+    </span>
+  )
+}
+
+type TInfoProps = React.HTMLAttributes<HTMLSpanElement> & {
+  children: React.ReactNode
+}
+const Info = ({ children, className, ...props }: TInfoProps) => {
+  return (
+    <span className={['text-neutral-500', className].join(' ')} {...props}>
+      {children}
+    </span>
+  )
 }
 
 export const TextInput = Object.assign({}, { Input, Error, Info })

@@ -47,16 +47,16 @@ export function ProjectSettingsForm({
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className="flex flex-col items-center justify-center gap-2"
+      className="flex flex-col items-center justify-center gap-2 w-full"
     >
-      <section className="flex flex-col gap-2">
+      <section className="flex flex-col gap-2 w-full">
         <div className="flex gap-2">
           <Avatar
             src={`https://avatar.vercel.sh/${projectNameInputValue || defaultValues.name}`}
             alt=""
           />
 
-          <fieldset className="flex flex-col">
+          <fieldset className="flex flex-col w-full">
             <TextInput.Input
               {...register('name', {
                 required: 'Project Name required',

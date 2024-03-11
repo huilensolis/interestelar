@@ -1,6 +1,7 @@
 import { ProjectsService } from '@/services/project'
 import { getCookie } from '@/utils/cookie/get-cookie'
 import { ProjectSettingsForm } from './components/project-settings-form'
+import { DeleteProjectBtn } from './components/project-settings-form/delete-project'
 
 export default async function SettingsPage({
   params: { id },
@@ -30,6 +31,7 @@ export default async function SettingsPage({
             projectId={id}
             defaultValues={{ name: project.name }}
           />
+          <DeleteProjectBtn projectName={project.name} />
         </article>
       </div>
     )
