@@ -22,6 +22,7 @@ export class ClientRouting {
     const projectsPath = '/app/projects'
     return {
       home: () => `${projectsPath}`,
+      restore: () => `${projectsPath}/restore`,
       project: (projectId: string) => ({
         home: () => `${projectsPath}/${projectId}`,
         board: () => `${projectsPath}/${projectId}/board`,

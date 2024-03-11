@@ -1,115 +1,55 @@
 'use client'
 
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-
+import { Portal } from '@/components/features/portal'
 import { DangerousButton } from '@/components/ui/button/dangerous'
-import { TextInput } from '@/components/ui/text-input'
-import { PlainButton } from '@/components/ui/button/plain'
-import { type TFormAreas } from './delete-project-btn.models'
+import { useState } from 'react'
+import { DeleteProjectModal } from './components/delete-project-modal'
+import { Paragraph } from '@/components/ui/paragraph'
+import { InlineLink } from '@/components/ui/inline-link'
+import { ClientRouting } from '@/models/routes/client'
 
 export function DeleteProjectBtn({ projectName }: { projectName: string }) {
-  const [showDeleteAccordion, setShowDeleteAccordion] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
-  const deleteProjectPhrase = 'Delete Project'
-
-  const { handleSubmit, register, formState, getFieldState, reset } =
-    useForm<TFormAreas>({ mode: 'all' })
-
-  const { errors, isValid, isValidating, isDirty } = formState
-
-  function closeDeleteAccordion() {
-    reset()
-    setShowDeleteAccordion(false)
+  function openModal() {
+    setIsModalOpen(true)
   }
 
-  function openDeleteAccordion() {
-    setShowDeleteAccordion(true)
-  }
-
-  async function DeleteProject() {
-    //
+  function closeModal() {
+    setIsModalOpen(false)
   }
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <DangerousButton
-        className="w-full"
-        type="button"
-        onClick={openDeleteAccordion}
-        disabled={showDeleteAccordion}
-      >
+      <DangerousButton className="w-full" type="button" onClick={openModal}>
         Delete Project
       </DangerousButton>
-      {showDeleteAccordion && (
-        <form
-          onSubmit={handleSubmit(DeleteProject)}
-          className="flex flex-col gap-2"
-        >
-          <section className="flex flex-col gap-2">
-            <fieldset>
-              <TextInput.Info className="w-max flex">
-                <p>
-                  Enter the project name
-                  <b className="font-bold"> &quot;{projectName}&quot;</b> to
-                  continue:
-                </p>
-              </TextInput.Info>
-              <TextInput.Input
-                {...register('project_name', {
-                  required: 'area required',
-                  validate: (inputValue: string) => {
-                    if (inputValue !== projectName)
-                      return 'project name does not match'
-                  },
-                })}
-                hasError={Boolean(errors.project_name)}
-                isDirty={getFieldState('project_name').isDirty}
-              />
-              {errors.project_name && (
-                <TextInput.Error className="flex">
-                  {errors.project_name?.message}
-                </TextInput.Error>
-              )}
-            </fieldset>
-            <fieldset>
-              <TextInput.Info className="w-max flex">
-                <p>
-                  To delete, type
-                  <b className="font-bold">
-                    {' '}
-                    &quot;{deleteProjectPhrase}&quot;
-                  </b>
-                  .
-                </p>
-              </TextInput.Info>
-              <TextInput.Input
-                {...register('delete_my_project', {
-                  required: 'area required',
-                  validate: (inputValue: string) => {
-                    if (inputValue !== deleteProjectPhrase)
-                      return 'phrase does not match'
-                  },
-                })}
-                hasError={Boolean(errors.delete_my_project)}
-                isDirty={getFieldState('delete_my_project').isDirty}
-              />
-              {errors.delete_my_project && (
-                <TextInput.Error className="flex">
-                  {errors.delete_my_project?.message}
-                </TextInput.Error>
-              )}
-            </fieldset>
-          </section>
-          <fieldset className="flex justify-between">
-            <PlainButton type="reset" onClick={closeDeleteAccordion}>
-              Close
-            </PlainButton>
-            <DangerousButton disabled={!isValid || isValidating || !isDirty}>
-              Delete
-            </DangerousButton>
-          </fieldset>
-        </form>
+      {isModalOpen && (
+        <Portal onClose={closeModal}>
+          <div>
+            <header className="mb-4">
+              <h1 className="font-semibold text-xl text-neutral-800">
+                Delete project
+              </h1>
+              <Paragraph className="w-full max-w-96 text-neutral-700">
+                This action is reversible. Once you delete this project, you can{' '}
+                <InlineLink href={ClientRouting.projects().restore()}>
+                  restore
+                </InlineLink>{' '}
+                it. if you dont{' '}
+                <InlineLink href={ClientRouting.projects().restore()}>
+                  restore
+                </InlineLink>{' '}
+                it in the next 30 days, it will be{' '}
+                <strong className="text-red-500 font-semibold">
+                  permanently deleted{' '}
+                </strong>
+                .
+              </Paragraph>
+            </header>
+            <DeleteProjectModal projectName={projectName} />
+          </div>
+        </Portal>
       )}
     </div>
   )
