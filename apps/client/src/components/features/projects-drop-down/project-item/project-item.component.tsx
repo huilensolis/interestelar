@@ -6,7 +6,7 @@ import { Avatar } from '@/components/ui/avatar/signle'
 export function ProjectItem({ project }: { project: Project }) {
   return (
     <NavLink
-      href={ClientRouting.projects().project(project.id)}
+      href={ClientRouting.projects().project(project.id).home()}
       className="py-2 px-2 focus:outline-transparent"
     >
       <Avatar

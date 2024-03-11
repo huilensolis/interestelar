@@ -22,10 +22,13 @@ export class ClientRouting {
     const projectsPath = '/app/projects'
     return {
       home: () => `${projectsPath}`,
-      project: (projectId: string) => `${projectsPath}/${projectId}`,
+      project: (projectId: string) => ({
+        home: () => `${projectsPath}/${projectId}`,
+        board: () => `${projectsPath}/${projectId}/board`,
+        members: () => `${projectsPath}/${projectId}/members`,
+        settings: () => `${projectsPath}/${projectId}/settings`,
+      }),
       create: () => `${projectsPath}/create`,
-      members: () => `${projectsPath}/members`,
-      settings: () => `${projectsPath}/settings`,
     }
   }
 }

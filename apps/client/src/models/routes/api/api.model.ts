@@ -38,6 +38,8 @@ export class ApiRouting {
       getUserProjectList: this.getFullPath(`${projectPath}/user`),
       getById: (projectId: string) =>
         this.getFullPath(`${projectPath}/${projectId}`),
+      editDetailsById: (projectId: string) =>
+        this.getFullPath(`${projectPath}/${projectId}`),
     }
   }
 }
