@@ -31,7 +31,9 @@ export default async function SettingsPage({
             projectId={id}
             defaultValues={{ name: project.name }}
           />
-          <DeleteProjectBtn projectName={project.name} />
+          <section className="flex items-center justify-end w-full">
+            <DeleteProjectBtn projectName={project.name} />
+          </section>
         </article>
       </div>
     )

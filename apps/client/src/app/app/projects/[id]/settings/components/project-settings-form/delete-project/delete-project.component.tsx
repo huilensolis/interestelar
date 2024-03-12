@@ -7,6 +7,8 @@ import { DeleteProjectModal } from './components/delete-project-modal'
 import { Paragraph } from '@/components/ui/paragraph'
 import { InlineLink } from '@/components/ui/inline-link'
 import { ClientRouting } from '@/models/routes/client'
+import { Archive } from 'lucide-react'
+import { Icon } from '@/components/ui/icon'
 
 export function DeleteProjectBtn({ projectName }: { projectName: string }) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -21,8 +23,12 @@ export function DeleteProjectBtn({ projectName }: { projectName: string }) {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <DangerousButton className="w-full" type="button" onClick={openModal}>
-        Delete Project
+      <DangerousButton
+        className="flex items-center justify-center w-full"
+        type="button"
+        onClick={openModal}
+      >
+        Delete Project <Icon icon={Archive} />
       </DangerousButton>
       {isModalOpen && (
         <Portal onClose={closeModal}>

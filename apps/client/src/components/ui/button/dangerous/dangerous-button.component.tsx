@@ -12,7 +12,7 @@ export function DangerousButton({
     <BaseButton
       {...props}
       className={[
-        'bg-red-500 text-neutral-50 py-2 px-4 disabled:bg-red-400 hover:brightness-105 hover:disabled:brightness-100 transition-all duration-75',
+        'bg-red-500 text-neutral-50 py-2 px-4 font-semibold disabled:bg-red-400 hover:brightness-105 hover:disabled:brightness-100 transition-all duration-75',
         className,
       ].join(' ')}
     >

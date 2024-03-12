@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { DangerousButton } from '@/components/ui/button/dangerous'
 import { TextInput } from '@/components/ui/text-input'
 import { type TFormAreas } from './delete-project-modal.models'
+import { Icon } from '@/components/ui/icon'
+import { Archive } from 'lucide-react'
 
 export function DeleteProjectModal({ projectName }: { projectName: string }) {
   const deleteProjectPhrase = 'Delete Project'
@@ -78,8 +80,11 @@ export function DeleteProjectModal({ projectName }: { projectName: string }) {
         </fieldset>
       </section>
       <fieldset className="flex justify-end items-center">
-        <DangerousButton disabled={!isValid || isValidating || !isDirty}>
-          Delete
+        <DangerousButton
+          disabled={!isValid || isValidating || !isDirty}
+          className="flex items-center"
+        >
+          Delete <Icon icon={Archive} />
         </DangerousButton>
       </fieldset>
     </form>
