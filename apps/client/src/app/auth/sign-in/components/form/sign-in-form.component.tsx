@@ -84,7 +84,7 @@ export function SignInForm() {
         Sign Up
       </PrimaryButton>
       {errorSigningIn && (
-        <span className="text-red-500">There is been an error signing up</span>
+        <span className="text-red-500">There is been an error signing in</span>
       )}
     </form>
   )

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sinclair/typebox": "^0.32.15",
     "axios": "^1.6.7",
     "lucide-react": "^0.330.0",
     "next": "14.1.0",

@@ -14,7 +14,7 @@ export function PlainButton({
     <BaseButton
       {...allProps}
       className={[
-        'text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 transition-colors duration-75',
+        'text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 transition-colors duration-75 px-4 py-2',
         className,
       ].join(' ')}
     >

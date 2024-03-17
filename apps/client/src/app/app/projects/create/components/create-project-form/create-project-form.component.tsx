@@ -31,7 +31,7 @@ export function CreateNewProjectForm() {
       if (error || !data) throw new Error('error creating project')
 
       setError(null)
-      router.push(ClientRouting.projects().project(data.project.id))
+      router.push(ClientRouting.projects().project(data.project.id).home())
     } catch (error) {
       setError('there is been an error trying to create the project')
     } finally {
@@ -44,7 +44,7 @@ export function CreateNewProjectForm() {
       onSubmit={handleSubmit(createNewProject)}
       className="flex flex-col items-center justify-center gap-2"
     >
-      <section className="flex flex-col gap-2">
+      <fieldset className="flex flex-col gap-2">
         <TextInput.Input
           {...register('name', {
             required: 'Project Name required',
@@ -55,8 +55,8 @@ export function CreateNewProjectForm() {
           hasError={Boolean(errors.name)}
           isDirty={getFieldState('name').isDirty}
         />
-        {error && <span className="text-red-600">{error}</span>}
-      </section>
+        {error && <TextInput.Error>{error}</TextInput.Error>}
+      </fieldset>
       <PrimaryButton
         className="w-full"
         type="submit"

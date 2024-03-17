@@ -1,21 +1,18 @@
-import { cookies } from 'next/headers'
 import { NextResponse, type NextRequest } from 'next/server'
-import { cookieName } from './models/cookie'
 import { ClientRouting } from './models/routes/client'
 import { SessionService } from './services/session/session.service'
+import { getCookie } from './utils/cookie/get-cookie'
 
 export async function middleware(request: NextRequest) {
   const requestUrl = new URL(request.url)
   try {
-    const cookieStore = cookies()
+    const { cookie } = getCookie()
 
-    const cookie = cookieStore.get(cookieName)
-
-    if (!cookie) throw new Error('No cookie received')
+    if (!cookie) throw new Error('No cookie found')
 
     const { isSessionValid } =
       await SessionService.validateSessionOnEdgeRuntime({
-        cookie: `${cookie.name}=${cookie.value}`,
+        cookie,
       })
 
     if (!isSessionValid) throw new Error('Invalid session')

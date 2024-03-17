@@ -83,4 +83,30 @@ export class ProjectsService {
       return { data: null, error: 'error getting user projects' }
     }
   }
+
+  static async editProjectDetails({
+    projectId,
+    name,
+    cookie,
+  }: {
+    projectId: string
+    name: string
+    cookie?: string
+  }): Promise<{ error: string | null }> {
+    console.log({ cookie, path: ApiRouting.project.editDetailsById(projectId) })
+    try {
+      const { status } = await axios.patch(
+        ApiRouting.project.editDetailsById(projectId),
+        { name },
+        { headers: { ...(cookie && { Cookie: cookie }) } }
+      )
+
+      if (status !== 200) throw new Error()
+
+      return { error: null }
+    } catch (error) {
+      console.log(error)
+      return { error: 'error editing proejct details' }
+    }
+  }
 }

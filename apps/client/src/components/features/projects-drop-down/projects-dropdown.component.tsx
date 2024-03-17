@@ -4,31 +4,20 @@ import { DropDown } from '@/components/features/drop-down'
 import { Icon } from '@/components/ui/icon'
 import { ChevronsUpDown, LayoutGrid } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
-import { ClientRouting } from '@/models/routes/client'
 import { ProjectsService } from '@/services/project'
 import { type Project } from '@/types/project'
 import { ProjectList } from './projects-list'
 import { ProjectNavSkelenton } from './project-nav-skeleton'
 import { Avatar } from '@/components/ui/avatar/signle'
 
-export function ProjectsDropDown() {
-  const [projectId, setProjectId] = useState<string | null>(null)
+export function ProjectsDropDown({
+  projectId = undefined,
+}: {
+  projectId?: string
+}) {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState<boolean>(false)
   const [currentProject, setCurrentProject] = useState<Project | null>(null)
-
-  const pathName = usePathname()
-
-  useEffect(() => {
-    const currentProjectId = pathName.split(
-      ClientRouting.projects().project('')
-    )[1]
-
-    if (currentProjectId) {
-      setProjectId(currentProjectId)
-    }
-  }, [pathName])
 
   useEffect(() => {
     async function getProjectById(projectId: string) {
