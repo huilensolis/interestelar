@@ -10,7 +10,13 @@ import { ClientRouting } from '@/models/routes/client'
 import { Archive } from 'lucide-react'
 import { Icon } from '@/components/ui/icon'
 
-export function DeleteProjectBtn({ projectName }: { projectName: string }) {
+export function DeleteProjectBtn({
+  projectName,
+  projectId,
+}: {
+  projectName: string
+  projectId: string
+}) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   function openModal() {
@@ -48,12 +54,15 @@ export function DeleteProjectBtn({ projectName }: { projectName: string }) {
                 </InlineLink>{' '}
                 it in the next 30 days, it will be{' '}
                 <strong className="text-red-500 font-semibold">
-                  permanently deleted{' '}
+                  permanently deleted
                 </strong>
                 .
               </Paragraph>
             </header>
-            <DeleteProjectModal projectName={projectName} />
+            <DeleteProjectModal
+              projectName={projectName}
+              projectId={projectId}
+            />
           </div>
         </Portal>
       )}

@@ -7,17 +7,46 @@ import { TextInput } from '@/components/ui/text-input'
 import { type TFormAreas } from './delete-project-modal.models'
 import { Icon } from '@/components/ui/icon'
 import { Archive } from 'lucide-react'
+import { ProjectsService } from '@/services/project'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { ClientRouting } from '@/models/routes/client'
 
-export function DeleteProjectModal({ projectName }: { projectName: string }) {
-  const deleteProjectPhrase = 'Delete Project'
+const DELETE_PROJECT_PHRASE = 'Delete Project'
+
+export function DeleteProjectModal({
+  projectName,
+  projectId,
+}: {
+  projectName: string
+  projectId: string
+}) {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+
+  const [errorSubmitting, setErrorSubmitting] = useState<boolean>(false)
 
   const { handleSubmit, register, formState, getFieldState } =
     useForm<TFormAreas>({ mode: 'all' })
 
   const { errors, isValid, isValidating, isDirty } = formState
 
+  const router = useRouter()
+
   async function DeleteProject() {
-    //
+    setIsSubmitting(true)
+    try {
+      const { error } = await ProjectsService.delete(projectId)
+
+      if (error)
+        throw new Error('error submitting form trying to delete proejct')
+
+      setErrorSubmitting(false)
+      router.push(ClientRouting.app().home())
+    } catch (error) {
+      setErrorSubmitting(true)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -56,7 +85,7 @@ export function DeleteProjectModal({ projectName }: { projectName: string }) {
               To delete, type
               <b className="font-semibold">
                 {' '}
-                &quot;{deleteProjectPhrase}&quot;
+                &quot;{DELETE_PROJECT_PHRASE}&quot;
               </b>
               .
             </p>
@@ -65,7 +94,7 @@ export function DeleteProjectModal({ projectName }: { projectName: string }) {
             {...register('delete_my_project', {
               required: 'area required',
               validate: (inputValue: string) => {
-                if (inputValue !== deleteProjectPhrase)
+                if (inputValue !== DELETE_PROJECT_PHRASE)
                   return 'phrase does not match'
               },
             })}
@@ -79,10 +108,16 @@ export function DeleteProjectModal({ projectName }: { projectName: string }) {
           )}
         </fieldset>
       </section>
+      {errorSubmitting && (
+        <TextInput.Error>
+          There has been an error trying to delete the project
+        </TextInput.Error>
+      )}
       <fieldset className="flex justify-end items-center">
         <DangerousButton
-          disabled={!isValid || isValidating || !isDirty}
+          disabled={!isValid || isValidating || !isDirty || isSubmitting}
           className="flex items-center"
+          loading={isSubmitting}
         >
           Delete <Icon icon={Archive} />
         </DangerousButton>

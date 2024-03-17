@@ -32,7 +32,7 @@ export default async function SettingsPage({
             defaultValues={{ name: project.name }}
           />
           <section className="flex items-center justify-end w-full">
-            <DeleteProjectBtn projectName={project.name} />
+            <DeleteProjectBtn projectName={project.name} projectId={id} />
           </section>
         </article>
       </div>
