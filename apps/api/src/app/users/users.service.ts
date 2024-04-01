@@ -1,6 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { validateUUID } from 'src/common/utils';
+import { FindOperator, ILike, Repository } from 'typeorm';
 import { User } from './entities';
 import { UserKey } from './models';
 
@@ -19,5 +20,25 @@ export class UsersService {
     }
 
     return 'OK';
+  }
+
+  public async getUser(searchParam: string) {
+    const isSearchingByUUID = validateUUID(searchParam);
+
+    const searchingBy: { key: string; query: string | FindOperator<string> } = {
+      key: 'username',
+      query: ILike(`%${searchParam}%`),
+    };
+
+    if (isSearchingByUUID) {
+      searchingBy.key = 'id';
+      searchingBy.query = searchParam;
+    }
+
+    const usersFound = await this.userRepository.find({
+      where: { [searchingBy.key]: searchingBy.query },
+    });
+
+    return usersFound;
   }
 }

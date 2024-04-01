@@ -1,4 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { ApiDefaultResponse } from '@nestjs/swagger';
+import { Auth } from '../auth/decorators';
 import { IsEmailPipe } from './pipes';
 import { UsersService } from './users.service';
 
@@ -14,5 +16,14 @@ export class UserController {
   @Get('/check/email/:value')
   checkEmail(@Param('value', IsEmailPipe) email: string) {
     return this.userService.checkUserData('email', email);
+  }
+
+  @Auth()
+  @ApiDefaultResponse({
+    description: 'Return users founds by id or username',
+  })
+  @Get(':searchParam')
+  findUser(@Param('searchParam') searchParam: string) {
+    return this.userService.getUser(searchParam);
   }
 }
