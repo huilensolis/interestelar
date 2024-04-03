@@ -12,7 +12,7 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { Collaboration } from './collaboration.entity';
+import { Collaboration } from '../../collaborations/entities/collaboration.entity';
 
 @Entity('projects')
 @Unique(['name', 'user'])

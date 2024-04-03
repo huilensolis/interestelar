@@ -1,7 +1,7 @@
 import { UUID } from 'crypto';
 import { User } from 'src/app/users/entities';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Project } from './project.entity';
+import { Project } from '../../base/entities';
 
 @Entity('collaborations')
 export class Collaboration {

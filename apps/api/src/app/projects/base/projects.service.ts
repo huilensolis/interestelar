@@ -8,10 +8,10 @@ import { UUID } from 'crypto';
 import { postgresErrorHandler } from 'src/app/common/utils/handle-db-exceptions.model';
 import { User } from 'src/app/users/entities';
 import { Repository } from 'typeorm';
+import { Collaboration } from '../collaborations/entities/collaboration.entity';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './entities';
-import { Collaboration } from './entities/collaboration.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -56,15 +56,13 @@ export class ProjectsService {
       relations: ['projects'],
     });
 
-    if (collaborationFound?.[0] == null) {
-      throw new NotFoundException();
-    }
-
     let projectsFound: Project[] = [];
 
-    collaborationFound.forEach((collaboration) => {
-      projectsFound = [...projectsFound, ...collaboration.projects];
-    });
+    if (collaborationFound?.[0] != null) {
+      collaborationFound.forEach((collaboration) => {
+        projectsFound = [...projectsFound, ...collaboration.projects];
+      });
+    }
 
     return projectsFound;
   }

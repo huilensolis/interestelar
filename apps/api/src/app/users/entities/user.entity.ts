@@ -1,6 +1,6 @@
 import { UUID } from 'crypto';
 import { Project } from 'src/app/projects/base/entities';
-import { Collaboration } from 'src/app/projects/base/entities/collaboration.entity';
+import { Collaboration } from 'src/app/projects/collaborations/entities/collaboration.entity';
 import {
   Column,
   Entity,
