@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 import { ProjectsModule } from './base/projects.module';
+import { CollaborationsModule } from './collaborations/collaborations.module';
 import { ColumnsModule } from './columns/columns.module';
 import { TagsModule } from './tags/tags.module';
-//TODO:Add cookies httpOnly for auth
+
 @Module({
   imports: [
     ProjectsModule,
     TagsModule,
     ColumnsModule,
+    CollaborationsModule,
     RouterModule.register([
       {
         path: 'projects',
@@ -21,6 +23,10 @@ import { TagsModule } from './tags/tags.module';
           {
             path: 'columns',
             module: ColumnsModule,
+          },
+          {
+            path: 'collaborations',
+            module: CollaborationsModule,
           },
         ],
       },

@@ -5,11 +5,14 @@ import { User } from 'src/app/users/entities';
 import {
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
+import { Collaboration } from '../../collaborations/entities/collaboration.entity';
 
 @Entity('projects')
 @Unique(['name', 'user'])
@@ -37,4 +40,11 @@ export class Project {
     cascade: true,
   })
   tags: Tag[];
+
+  @ManyToMany(() => Collaboration, (collaboration) => collaboration.projects, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  collaboration: Collaboration;
 }

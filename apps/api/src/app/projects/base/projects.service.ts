@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UUID } from 'crypto';
 import { postgresErrorHandler } from 'src/app/common/utils/handle-db-exceptions.model';
 import { User } from 'src/app/users/entities';
 import { Repository } from 'typeorm';
+import { Collaboration } from '../collaborations/entities/collaboration.entity';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './entities';
@@ -13,6 +18,9 @@ export class ProjectsService {
   constructor(
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
+
+    @InjectRepository(Collaboration)
+    private readonly collaborationRepository: Repository<Collaboration>,
   ) {}
 
   async create(createProjectDto: CreateProjectDto, user: User) {
@@ -24,6 +32,15 @@ export class ProjectsService {
 
       const projectData = await this.projectRepository.save(newProject);
 
+      const newCollaboration = this.collaborationRepository.create({
+        collaborators: [user],
+        projects: [projectData],
+        role: 'owner',
+        status: 'active',
+      });
+
+      await this.collaborationRepository.save(newCollaboration);
+
       return this.formatProjectData(projectData);
     } catch (error) {
       postgresErrorHandler(error);
@@ -31,46 +48,75 @@ export class ProjectsService {
   }
 
   async getAllUserProjects(userId: UUID) {
-    const userProjects = await this.projectRepository.findBy({
-      user: { id: userId },
+    const collaborationFound = await this.collaborationRepository.find({
+      where: {
+        collaborators: { id: userId },
+        status: 'active',
+      },
+      relations: ['projects'],
     });
 
-    if (userProjects == null) {
-      throw new NotFoundException();
+    let projectsFound: Project[] = [];
+
+    if (collaborationFound?.[0] != null) {
+      collaborationFound.forEach((collaboration) => {
+        projectsFound = [...projectsFound, ...collaboration.projects];
+      });
     }
 
-    return userProjects;
+    return projectsFound;
   }
 
-  async findOne(id: UUID, user: User) {
-    const projectFound = await this.projectRepository.findOneBy({
-      id,
-      user: { id: user.id },
+  async findOne(projectId: UUID, user: User) {
+    const collaborationFound = await this.collaborationRepository.findOne({
+      where: {
+        projects: { id: projectId },
+        collaborators: { id: user.id },
+      },
+      relations: ['projects'],
     });
 
-    if (projectFound == null) {
-      throw new NotFoundException('Product not found');
+    if (collaborationFound?.projects?.[0] == null) {
+      throw new NotFoundException(`Project with id ${projectId} not found`);
     }
+
+    const projectFound = collaborationFound.projects[0];
 
     return projectFound;
   }
 
-  async update(id: UUID, updateProjectDto: UpdateProjectDto, user: User) {
-    let projectFound = await this.projectRepository.findOne({
-      where: { id, user: { id: user.id } },
+  async update(
+    projectId: UUID,
+    updateProjectDto: UpdateProjectDto,
+    user: User,
+  ) {
+    const collaborationFound = await this.collaborationRepository.findOne({
+      where: {
+        projects: { id: projectId },
+        collaborators: { id: user.id },
+      },
+      relations: ['projects'],
     });
 
-    if (projectFound == null) {
-      throw new NotFoundException(`Project ${id} not found`);
+    const projectToUpdate = collaborationFound?.projects?.[0];
+    if (projectToUpdate == null) {
+      throw new NotFoundException(`Project ${projectId} not found`);
     }
 
-    projectFound = {
-      ...projectFound,
+    if (
+      collaborationFound?.role === 'member' ||
+      collaborationFound?.status !== 'active'
+    ) {
+      throw new UnauthorizedException();
+    }
+
+    const projectUpdated = {
+      ...projectToUpdate,
       ...updateProjectDto,
     };
 
     try {
-      const productSaved = await this.projectRepository.save(projectFound);
+      const productSaved = await this.projectRepository.save(projectUpdated);
 
       return this.formatProjectData(productSaved);
     } catch (error) {
@@ -78,14 +124,37 @@ export class ProjectsService {
     }
   }
 
-  async remove(id: UUID, user: User) {
-    const { affected } = await this.projectRepository.delete({ id, user });
+  async remove(projectId: UUID, user: User) {
+    const collaborationFound = await this.collaborationRepository.findOne({
+      where: {
+        projects: { id: projectId },
+        collaborators: { id: user.id },
+      },
+    });
 
-    if (affected === 0) {
-      throw new NotFoundException('Project not found');
+    if (collaborationFound == null) {
+      throw new NotFoundException(`Project with id ${projectId} not found`);
     }
 
-    return `Project ${id} removed`;
+    if (
+      collaborationFound?.role !== 'owner' ||
+      collaborationFound?.status !== 'active'
+    ) {
+      throw new UnauthorizedException(
+        'You need to be the the project owner and be an active user',
+      );
+    }
+
+    const { affected } = await this.projectRepository.delete({
+      id: projectId,
+      user,
+    });
+
+    if (affected === 0) {
+      throw new NotFoundException(`Project with id ${projectId} not found`);
+    }
+
+    return `Project ${projectId} removed`;
   }
 
   private formatProjectData(project: Project) {
