@@ -1,6 +1,14 @@
 import { UUID } from 'crypto';
 import { Project } from 'src/app/projects/base/entities';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Collaboration } from 'src/app/projects/base/entities/collaboration.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -40,4 +48,11 @@ export class User {
 
   @OneToMany(() => Project, (project) => project.user)
   projects: string[];
+
+  @ManyToMany(
+    () => Collaboration,
+    (collaboration) => collaboration.collaborators,
+  )
+  @JoinTable()
+  collaborations: Collaboration[];
 }
