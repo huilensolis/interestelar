@@ -35,9 +35,9 @@ export class ApiRouting {
       create: this.getFullPath(`${projectPath}`),
       delete: (projectId: string) =>
         this.getFullPath(`${projectPath}/${projectId}`),
-      getUserProjectList: this.getFullPath(`${projectPath}/user`),
+      getAll: this.getFullPath(`${projectPath}/user`),
       getById: (projectId: string) =>
-        this.getFullPath(`${projectPath}/${projectId}`),
+        this.getFullPath(`${projectPath}/user/${projectId}`),
       editDetailsById: (projectId: string) =>
         this.getFullPath(`${projectPath}/${projectId}`),
     }
