@@ -71,7 +71,7 @@ export class ProjectsService {
   }> {
     try {
       const { data, status } = await axios.get<Project[] | null>(
-        ApiRouting.project.getUserProjectList,
+        ApiRouting.project.getAll,
         { headers: { credentials: 'include' } }
       )
 
