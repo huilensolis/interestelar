@@ -1,6 +1,6 @@
 import { ApiRouting } from '@/models/routes/api/api.model'
 import { type Project } from '@/types/project'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 type TCreateProjectResponse = {
   name: Project['name']
@@ -51,7 +51,11 @@ export class ProjectsService {
     try {
       const { data, status } = await axios.get<Project | null>(
         ApiRouting.project.getById(projectId),
-        { headers: cookie ? { Cookie: cookie } : {} }
+        {
+          headers: {
+            ...(cookie && { Cookie: cookie }),
+          },
+        }
       )
 
       if (!data || status !== 200)
@@ -65,14 +69,19 @@ export class ProjectsService {
     }
   }
 
-  static async getUserProjectList(): Promise<{
+  static async getUserProjectList(cookie?: string): Promise<{
     data: { projects: Project[] } | null
     error: string | null
   }> {
     try {
       const { data, status } = await axios.get<Project[] | null>(
         ApiRouting.project.getAll,
-        { headers: { credentials: 'include' } }
+        {
+          headers: {
+            credentials: 'include',
+            ...(cookie && { Cookie: cookie }),
+          },
+        }
       )
 
       if (!data || status !== 200)
@@ -92,8 +101,7 @@ export class ProjectsService {
     projectId: string
     name: string
     cookie?: string
-  }): Promise<{ error: string | null }> {
-    console.log({ cookie, path: ApiRouting.project.editDetailsById(projectId) })
+  }): Promise<{ error: AxiosError | 'UNKNOWN' | null }> {
     try {
       const { status } = await axios.patch(
         ApiRouting.project.editDetailsById(projectId),
@@ -105,8 +113,11 @@ export class ProjectsService {
 
       return { error: null }
     } catch (error) {
-      console.log(error)
-      return { error: 'error editing proejct details' }
+      if (error instanceof AxiosError) {
+        return { error }
+      }
+
+      return { error: 'UNKNOWN' }
     }
   }
 }

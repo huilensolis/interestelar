@@ -1,6 +1,5 @@
 'use client'
 
-import { ProjectsService } from '@/services/project'
 import { type Project } from '@/types/project'
 import { useEffect, useState } from 'react'
 import { NavLink } from '../../nav-link'
@@ -13,38 +12,13 @@ import { useDebounce } from '@/hooks/use-debounce'
 import { ProjectItem } from '../project-item'
 import { ProjectItemSkeleton } from '../project-item-skeleton'
 
-export function ProjectList() {
-  const [projectList, setProjectList] = useState<Project[]>([])
-  const [error, setError] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+export function ProjectList({ projectList }: { projectList: Project[] }) {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const [inputSearchValue, setInputSearchValue] = useState<string>('')
   const [searchedProjects, setSearchedProjects] = useState<Project[] | null>(
     null
   )
-
-  useEffect(() => {
-    async function getProjectList() {
-      try {
-        setIsLoading(true)
-        const { data, error } = await ProjectsService.getUserProjectList()
-
-        if (!data || error) throw new Error('error getting project list')
-
-        const { projects } = data
-
-        setProjectList(projects)
-        setError(false)
-      } catch (error) {
-        setError(true)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getProjectList()
-  }, [])
 
   const { debouncedValue: debouncedSearchProjectValue } = useDebounce({
     delay: 300,
@@ -122,7 +96,6 @@ export function ProjectList() {
           {!isLoading && searchedProjects && searchedProjects.length === 0 && (
             <span className="p-2">not found</span>
           )}
-          {error && <span>error fetching projects list</span>}
         </ul>
       </Box>
       <Box className="rounded-tr-none rounded-tl-none">
