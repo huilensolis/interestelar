@@ -2,7 +2,7 @@
 
 import { ProjectsService } from '@/services/project'
 import { getCookie } from '@/utils/cookie/get-cookie'
-import { revalidatePath } from 'next/cache'
+import { AxiosError } from 'axios'
 
 export default async function editProjectDetails({
   projectId,
@@ -10,11 +10,11 @@ export default async function editProjectDetails({
 }: {
   projectId: string
   name: string
-}) {
+}): Promise<{ error: 'UNAUTHORIZED' | 'CONFLICT' | 'UNKNOWN' | null }> {
   try {
     const { cookie } = getCookie()
 
-    if (!cookie) return
+    if (!cookie) return { error: 'UNAUTHORIZED' }
 
     const { error } = await ProjectsService.editProjectDetails({
       projectId,
@@ -22,10 +22,16 @@ export default async function editProjectDetails({
       cookie,
     })
 
-    if (error) throw new Error('error on request')
+    if (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 409) return { error: 'CONFLICT' }
+      }
 
-    revalidatePath('/', 'layout')
+      throw new Error('')
+    }
+
+    return { error: null }
   } catch (error) {
-    throw new Error('error editing proejct details')
+    return { error: 'UNKNOWN' }
   }
 }

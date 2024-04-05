@@ -7,6 +7,8 @@ import { TextInput } from '@/components/ui/text-input'
 import { useState } from 'react'
 import { PrimaryButton } from '@/components/ui/button/primary/primary-button.component'
 import editProjectDetails from './actions/edit-project-details'
+import { useRouter } from 'next/navigation'
+import { ClientRouting } from '@/models/routes/client'
 
 export function ProjectSettingsForm({
   defaultValues,
@@ -18,7 +20,7 @@ export function ProjectSettingsForm({
   const [projectNameInputValue, setProjectNameInputValue] = useState(
     defaultValues.name
   )
-  const [errorOnSubmit, setErrorOnSubmit] = useState<boolean>(false)
+  const [errorOnSubmit, setErrorOnSubmit] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState<boolean>(false)
 
   const { handleSubmit, register, formState, getFieldState } =
@@ -29,16 +31,38 @@ export function ProjectSettingsForm({
 
   const { errors, isValid, isValidating, isDirty } = formState
 
+  const router = useRouter()
+
   async function handleFormSubmit(data: TFormAreas) {
     if (!data?.name) return
 
     try {
       setSubmitting(true)
 
-      await editProjectDetails({ projectId, name: data.name })
-    } catch (error) {
+      const { error } = await editProjectDetails({ projectId, name: data.name })
+
       console.log({ error })
-      setErrorOnSubmit(true)
+
+      if (error) {
+        switch (error) {
+          case 'UNAUTHORIZED':
+            router.push(ClientRouting.auth().signIn())
+            return
+
+          case 'CONFLICT':
+            setErrorOnSubmit('Project name already exists')
+            return
+
+          default:
+            setErrorOnSubmit('An unknown error has occurred')
+            return
+        }
+      }
+
+      setErrorOnSubmit(null)
+      router.refresh()
+    } catch (error) {
+      setErrorOnSubmit('there has been an unknwon error')
     } finally {
       setSubmitting(false)
     }
@@ -90,9 +114,7 @@ export function ProjectSettingsForm({
         >
           Update
         </PrimaryButton>
-        {errorOnSubmit && (
-          <span className="text-red-500">there has been an error</span>
-        )}
+        {errorOnSubmit && <span className="text-red-500">{errorOnSubmit}</span>}
       </section>
     </form>
   )

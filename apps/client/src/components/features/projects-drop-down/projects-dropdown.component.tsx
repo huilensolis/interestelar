@@ -3,55 +3,24 @@
 import { DropDown } from '@/components/features/drop-down'
 import { Icon } from '@/components/ui/icon'
 import { ChevronsUpDown, LayoutGrid } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { ProjectsService } from '@/services/project'
 import { type Project } from '@/types/project'
 import { ProjectList } from './projects-list'
-import { ProjectNavSkelenton } from './project-nav-skeleton'
 import { Avatar } from '@/components/ui/avatar/signle'
 
 export function ProjectsDropDown({
-  projectId = undefined,
+  currentProject,
+  projectList,
 }: {
-  projectId?: string
+  currentProject: Project | null
+  projectList: Project[]
 }) {
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [error, setError] = useState<boolean>(false)
-  const [currentProject, setCurrentProject] = useState<Project | null>(null)
-
-  useEffect(() => {
-    async function getProjectById(projectId: string) {
-      try {
-        setIsLoading(true)
-        const { data, error } = await ProjectsService.getById(projectId)
-        if (!data || error) throw new Error('error getting current project')
-
-        const { project } = data
-
-        if (!project) throw new Error('project not found')
-
-        setCurrentProject(project)
-      } catch (error) {
-        setError(true)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    if (projectId) {
-      // eslint-disable-next-line  @typescript-eslint/no-floating-promises
-      getProjectById(projectId)
-    }
-  }, [projectId])
-
   return (
     <DropDown.Provider>
       <div className="relative">
         <DropDown.ToggleBtn
           className={`w-full flex justify-between items-center hover:bg-gray-200 text-neutral-500 hover:text-neutral-700 rounded-sm transition-colors duration-75`}
         >
-          {isLoading && <ProjectNavSkelenton />}
-          {error && (
+          {!currentProject && (
             <div className="w-full flex px-1 py-1 items-center">
               <Icon icon={LayoutGrid} />
               <span className="px-2 font-medium">Projects</span>
@@ -76,7 +45,7 @@ export function ProjectsDropDown({
           <Icon icon={ChevronsUpDown} />
         </DropDown.ToggleBtn>
         <DropDown.DropeableZone className="absolute top-full w-full">
-          <ProjectList />
+          <ProjectList projectList={projectList} />
         </DropDown.DropeableZone>
       </div>
     </DropDown.Provider>
