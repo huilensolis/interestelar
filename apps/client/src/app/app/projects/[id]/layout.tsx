@@ -9,7 +9,7 @@ export default function ProjectsLayout({
 }) {
   return (
     <div className="flex w-full">
-      <div className="border-r border-neutral-200 shadow-2xl shadow-gray-200 w-full max-w-80">
+      <div className="h-screen sticky top-0 border-r border-neutral-200 shadow-2xl shadow-gray-200 w-full max-w-80">
         <ProjectsAsideNav projectId={id} />
       </div>
       <main className="flex items-center justify-center p-4 w-full h-full">

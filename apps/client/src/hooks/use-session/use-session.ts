@@ -40,5 +40,33 @@ export function useSession() {
     return { user }
   }
 
-  return { signUp, signIn, signOut, validateSession, getUser }
+  async function checkUsernameAvailability(
+    username: string
+  ): Promise<{ error: string | null }> {
+    const { error } = await SessionService.checkUsernameAvailability(username)
+
+    if (error) return { error }
+
+    return { error: null }
+  }
+
+  async function checkGmailAvailability(
+    gmail: string
+  ): Promise<{ error: string | null }> {
+    const { error } = await SessionService.checkGmailAvailability(gmail)
+
+    if (error) return { error }
+
+    return { error: null }
+  }
+
+  return {
+    signUp,
+    signIn,
+    signOut,
+    validateSession,
+    getUser,
+    checkUsernameAvailability,
+    checkGmailAvailability,
+  }
 }

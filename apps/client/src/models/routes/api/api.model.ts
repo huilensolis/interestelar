@@ -25,6 +25,10 @@ export class ApiRouting {
         this.getFullPath(`${userPath}/check/username/${username}`),
       checkEmailAvailability: (email: string) =>
         this.getFullPath(`${userPath}/check/email/${email}`),
+      getManyByUsername: (username: string) =>
+        this.getFullPath(`${userPath}/${username}`),
+      getSingleById: (username: string) =>
+        this.getFullPath(`${userPath}/${username}`),
     }
   }
 
