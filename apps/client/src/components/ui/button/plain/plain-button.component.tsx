@@ -1,7 +1,7 @@
 import { BaseButton } from '..'
 import { type TBaseButtonProps } from '../base-button.models'
 
-export function PlainButton({
+export function PlainButton ({
   className,
   loading,
   disabled,
@@ -12,13 +12,13 @@ export function PlainButton({
 
   return (
     <BaseButton
-      {...allProps}
-      className={[
-        'text-neutral-500 hover:bg-neutral-200 hover:text-neutral-700 transition-colors duration-75 px-4 py-2',
+      { ...allProps }
+      className={ [
         className,
-      ].join(' ')}
+        'hover:brightness-105 transition-all duration-75 px-2 py-1.5 flex items-center justify-center',
+      ].join(' ') }
     >
-      {children}
+      { children }
     </BaseButton>
   )
 }

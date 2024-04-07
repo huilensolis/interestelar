@@ -78,7 +78,7 @@ export default function MembersPage({
           {projectCollaborators.map((user) => (
             <li
               key={user.id}
-              className="py-3 border-b border-b-neutral-300 grid grid-cols-3 justify-center items-center"
+              className="hover:bg-neutral-200/30 py-3 border-b grid grid-cols-3 justify-center items-center"
             >
               <UserCard user={user} />
               {user.roles &&

@@ -12,9 +12,9 @@ export function BaseButton({
       aria-disabled={disabled}
       disabled={disabled}
       className={[
-        className,
-        'rounded-sm font-medium disabled:cursor-not-allowed',
+        'font-medium disabled:cursor-not-allowed',
         loading && 'flex items-center justify-center',
+        className,
       ].join(' ')}
       {...props}
     >

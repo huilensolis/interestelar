@@ -6,12 +6,12 @@ import { Box } from '@/components/ui/box'
 import { Icon } from '@/components/ui/icon'
 import { TextInput } from '@/components/ui/text-input'
 import { Search } from 'lucide-react'
-import { PrimaryButton } from '@/components/ui/button/primary'
 import { useDebounce } from '@/hooks/use-debounce'
 import { UserService } from '@/services/user'
 import { type User } from '@/types/user'
 import { CardSkeleton } from './components/card-skeleton'
 import { UserCard } from '../user-card'
+import { InviteToProjectBtn } from './components/invite-btn'
 
 export function InviteCollaborator() {
   const [searchValue, setSearchValue] = useState<string>('')
@@ -53,7 +53,7 @@ export function InviteCollaborator() {
   }, [debouncedSearchValue])
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full max-w-lg">
       <div className="flex flex-col items-start justify-center w-full p-3">
         <fieldset className="flex justify-start items-center w-full">
           <div className="flex items-center justify-start">
@@ -75,10 +75,14 @@ export function InviteCollaborator() {
               users.map((user) => (
                 <li
                   key={user.id}
-                  className="flex items-center justify-start w-full"
+                  className="grid items-center justify-start w-full grid-cols-3"
                 >
-                  <UserCard user={user} />
-                  <InviteToProject />
+                  <div className="col-span-2">
+                    <UserCard user={user} />
+                  </div>
+                  <div className="flex items-center justify-end">
+                    <InviteToProjectBtn />
+                  </div>
                 </li>
               ))}
             {isLoading &&
@@ -94,9 +98,4 @@ export function InviteCollaborator() {
       )}
     </div>
   )
-}
-
-function InviteToProject() {
-  // TODO:add invite option
-  return <PrimaryButton className="rounded-xl">Invite</PrimaryButton>
 }
