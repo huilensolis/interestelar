@@ -7,43 +7,53 @@ export class ApiRouting {
   }
 
   public static get auth() {
-    const authPath = 'auth'
+    const path = 'auth'
     return {
-      signUp: this.getFullPath(`${authPath}/sign-up`),
-      signIn: this.getFullPath(`${authPath}/sign-in`),
-      signOut: this.getFullPath(`${authPath}/sign-out`),
-      getUser: this.getFullPath(`${authPath}/user`),
-      checkSession: this.getFullPath(`${authPath}/check-session`),
+      signUp: this.getFullPath(`${path}/sign-up`),
+      signIn: this.getFullPath(`${path}/sign-in`),
+      signOut: this.getFullPath(`${path}/sign-out`),
+      getUser: this.getFullPath(`${path}/user`),
+      checkSession: this.getFullPath(`${path}/check-session`),
     }
   }
 
   public static get user() {
-    const userPath = 'users'
+    const path = 'users'
 
     return {
       checkUsernameAvailability: (username: string) =>
-        this.getFullPath(`${userPath}/check/username/${username}`),
+        this.getFullPath(`${path}/check/username/${username}`),
       checkEmailAvailability: (email: string) =>
-        this.getFullPath(`${userPath}/check/email/${email}`),
+        this.getFullPath(`${path}/check/email/${email}`),
       getManyByUsername: (username: string) =>
-        this.getFullPath(`${userPath}/${username}`),
+        this.getFullPath(`${path}/${username}`),
       getSingleById: (username: string) =>
-        this.getFullPath(`${userPath}/${username}`),
+        this.getFullPath(`${path}/${username}`),
     }
   }
 
   public static get project() {
-    const projectPath = 'projects'
+    const path = 'projects'
 
     return {
-      create: this.getFullPath(`${projectPath}`),
-      delete: (projectId: string) =>
-        this.getFullPath(`${projectPath}/${projectId}`),
-      getAll: this.getFullPath(`${projectPath}/user`),
+      create: this.getFullPath(`${path}`),
+      delete: (projectId: string) => this.getFullPath(`${path}/${projectId}`),
+      getAll: this.getFullPath(`${path}/user`),
       getById: (projectId: string) =>
-        this.getFullPath(`${projectPath}/user/${projectId}`),
+        this.getFullPath(`${path}/user/${projectId}`),
       editDetailsById: (projectId: string) =>
-        this.getFullPath(`${projectPath}/${projectId}`),
+        this.getFullPath(`${path}/${projectId}`),
+    }
+  }
+
+  public static get projectMembers() {
+    const path = 'projects/collaborations/invitations'
+
+    return {
+      invite: () => this.getFullPath(`${path}/send`),
+      joinProjectByInvitation: (projectId: string) =>
+        this.getFullPath(`${path}/join/${projectId}`),
+      getUserInvitationList: () => this.getFullPath(`${path}`),
     }
   }
 }
