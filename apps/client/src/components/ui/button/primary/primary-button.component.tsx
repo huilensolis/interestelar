@@ -15,7 +15,7 @@ export function PrimaryButton({
       loading={loading}
       disabled={disabled}
       className={[
-        'bg-neutral-600 text-neutral-50 py-2 px-4 hover:brightness-105 hover:disabled:brightness-100 transition-all duration-75 flex items-center justify-center disabled:bg-neutral-500',
+        'bg-neutral-950 text-neutral-50 hover:bg-neutral-800 disabled:bg-neutral-500',
         className,
       ].join(' ')}
       {...props}

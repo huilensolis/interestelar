@@ -12,6 +12,7 @@ import { type User } from '@/types/user'
 import { CardSkeleton } from './components/card-skeleton'
 import { UserCard } from '../user-card'
 import { InviteToProjectBtn } from './components/invite-btn'
+import { useUser } from '@/hooks/use-user'
 
 export function InviteCollaborator({ projectId }: { projectId: string }) {
   const [searchValue, setSearchValue] = useState<string>('')
@@ -31,6 +32,8 @@ export function InviteCollaborator({ projectId }: { projectId: string }) {
     delay: 500,
   })
 
+  const { user, loading: isLoadingUser } = useUser()
+
   useEffect(() => {
     async function searchUsers() {
       setIsLoading(true)
@@ -39,11 +42,17 @@ export function InviteCollaborator({ projectId }: { projectId: string }) {
         limit: 3,
       })
 
+      if (user && !isLoadingUser) {
+        setUsers(users.filter((userItem) => userItem.id !== user.id))
+        setIsLoading(false)
+        return
+      }
+
       setUsers(users)
       setIsLoading(false)
     }
 
-    if (debouncedSearchValue) {
+    if (debouncedSearchValue.trim()) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       searchUsers()
       return
@@ -72,6 +81,7 @@ export function InviteCollaborator({ projectId }: { projectId: string }) {
         <Box className="w-full h-max absolute left-0 top-full">
           <ul className="flex flex-col p-3 gap-4">
             {!isLoading &&
+              users.length > 0 &&
               users.map((user) => (
                 <li
                   key={user.id}

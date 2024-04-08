@@ -1,19 +1,18 @@
 import { BaseButton } from '..'
 import { type TBaseButtonProps } from '../base-button.models'
 
-export function PlainButton({
+export function GhostButton({
   className,
-  loading,
-  disabled,
   children,
   ...props
 }: TBaseButtonProps) {
-  const allProps = { loading, disabled, ...props }
-
   return (
     <BaseButton
-      {...allProps}
-      className={[className, 'hover:brightness-105'].join(' ')}
+      {...props}
+      className={[
+        className,
+        'border border-neutral-300 bg-transparent hover:bg-neutral-500/5',
+      ].join(' ')}
     >
       {children}
     </BaseButton>

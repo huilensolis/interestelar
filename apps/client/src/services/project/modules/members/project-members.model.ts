@@ -1,4 +1,5 @@
 import { ApiRouting } from '@/models/routes/api/api.model'
+import { type Project } from '@/types/project'
 import axios from 'axios'
 
 export class ProjectMembersService {
@@ -23,17 +24,18 @@ export class ProjectMembersService {
     }
   }
 
-  static async getUserInvitationList(): Promise<{
-    data: any | null
+  static async getUserInvitationList({ cookie }: { cookie?: string }): Promise<{
+    data: Project[] | null
     error: 'UNKNOWN' | null
   }> {
     try {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data, status } = await axios.get(
-        ApiRouting.projectMembers.getUserInvitationList()
+        ApiRouting.projectMembers.getUserInvitationList(),
+        { headers: { ...(cookie && { Cookie: cookie }) } }
       )
+      if (status !== 200) throw new Error()
 
-      console.log({ status })
       return { data, error: null }
     } catch (error) {
       return { data: null, error: 'UNKNOWN' }

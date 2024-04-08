@@ -11,10 +11,12 @@ export class ClientRouting {
   }
 
   public static app() {
-    const appPath = '/app'
+    const appPath = '/app/dashboard'
 
     return {
       home: () => `${appPath}/`,
+      inbox: () => `${appPath}/inbox`,
+      projects: () => `${appPath}/projects`,
     }
   }
 
