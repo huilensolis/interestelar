@@ -1,6 +1,6 @@
 // import { Chip } from '@/components/ui/chip'
 import { SearchBar } from './components/search-bar'
-import { ProjectsService } from '@/services/project'
+import { ProjectService } from '@/services/project'
 import { cookies } from 'next/headers'
 import { cookieName } from '@/models/cookie'
 import { StackedAvatar } from '@/components/ui/avatar/stacked-avatar'
@@ -18,7 +18,7 @@ export default async function ProjectPage({
 
   if (!cookie) return <NotFound />
 
-  const { data, error } = await ProjectsService.getById(
+  const { data, error } = await ProjectService.CRUD.getById(
     id,
     `${cookie.name}=${cookie.value}`
   )

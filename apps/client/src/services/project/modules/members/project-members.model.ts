@@ -25,6 +25,7 @@ export class ProjectMembersService {
     error: 'UNKNOWN' | null
   }> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data, status } = await axios.get(
         ApiRouting.projectMembers.getUserInvitationList()
       )
@@ -41,6 +42,7 @@ export class ProjectMembersService {
     projectId: string
   }): Promise<{ error: 'UNKNOWN' | null }> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { status } = await axios.get(
         ApiRouting.projectMembers.joinProjectByInvitation(projectId)
       )

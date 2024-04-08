@@ -1,4 +1,4 @@
-import { ProjectsService } from '@/services/project'
+import { ProjectService } from '@/services/project'
 import { ProjectsDropDown } from '../../projects-drop-down'
 import { getCookie } from '@/utils/cookie/get-cookie'
 
@@ -7,13 +7,13 @@ export async function ProjectDropDown({ projectId }: { projectId: string }) {
 
   if (!cookie) return <></>
 
-  const { data: currentProjectData } = await ProjectsService.getById(
+  const { data: currentProjectData } = await ProjectService.CRUD.getById(
     projectId,
     cookie
   )
 
   const { data: projectListData } =
-    await ProjectsService.getUserProjectList(cookie)
+    await ProjectService.CRUD.getUserProjectList(cookie)
 
   return (
     <ProjectsDropDown

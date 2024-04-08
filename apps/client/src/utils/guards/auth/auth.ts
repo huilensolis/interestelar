@@ -1,13 +1,10 @@
-import { cookieName } from '@/models/cookie'
 import { ClientRouting } from '@/models/routes/client'
-import { cookies } from 'next/headers'
+import { getCookie } from '@/utils/cookie/get-cookie'
 import { redirect } from 'next/navigation'
 
 export async function protectResourceFromAuthenticatedUsers() {
-  const cookieStore = cookies()
-
   try {
-    const reqCookie = cookieStore.get(cookieName)
+    const { cookie: reqCookie } = getCookie()
 
     if (reqCookie)
       throw new Error(
