@@ -7,7 +7,7 @@ import { TextInput } from '@/components/ui/text-input'
 import { type TFormAreas } from './delete-project-modal.models'
 import { Icon } from '@/components/ui/icon'
 import { Archive } from 'lucide-react'
-import { ProjectsService } from '@/services/project'
+import { ProjectService } from '@/services/project'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ClientRouting } from '@/models/routes/client'
@@ -35,7 +35,7 @@ export function DeleteProjectModal({
   async function DeleteProject() {
     setIsSubmitting(true)
     try {
-      const { error } = await ProjectsService.delete(projectId)
+      const { error } = await ProjectService.CRUD.delete(projectId)
 
       if (error)
         throw new Error('error submitting form trying to delete proejct')

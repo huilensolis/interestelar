@@ -1,36 +1,38 @@
-import { ApiRouting } from '@/models/routes/api/api.model'
 import axios from 'axios'
 
+import { ApiRouting } from '@/models/routes/api/api.model'
+import { type User } from '@/types/user'
+
 export class UserService {
-  static async checkUsernameAvailability(
+  static async getUsersByUsernameIlike({
+    username,
+    cookie,
+    limit = 4,
+  }: {
     username: string
-  ): Promise<{ error: string | null }> {
+    cookie?: string
+    limit?: number
+  }): Promise<{ users: User[] }> {
     try {
-      const { status } = await axios.get(
-        ApiRouting.user.checkUsernameAvailability(username)
+      const { data, status } = await axios.get(
+        ApiRouting.user.getManyByUsername(username),
+        {
+          headers: {
+            ...(cookie && { Cookie: cookie }),
+          },
+          withCredentials: true,
+        }
       )
 
-      if (status !== 200) return { error: 'username not available' }
+      if (status !== 200) throw new Error('No users found')
 
-      return { error: null }
+      if (data.length > limit) {
+        return { users: data.slice(0, limit) }
+      }
+
+      return { users: data }
     } catch (error) {
-      return { error: 'username not available' }
-    }
-  }
-
-  static async checkGmailAvailability(
-    gmail: string
-  ): Promise<{ error: string | null }> {
-    try {
-      const { status } = await axios.get(
-        ApiRouting.user.checkEmailAvailability(gmail)
-      )
-
-      if (status !== 200) return { error: 'gmail not available' }
-
-      return { error: null }
-    } catch {
-      return { error: 'gmail not available' }
+      return { users: [] }
     }
   }
 }

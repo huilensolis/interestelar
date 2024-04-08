@@ -1,25 +1,33 @@
-import { UserService } from '@/services/user'
+import { SessionService } from '@/services/session/session.service'
+import { type User } from '@/types/user'
+import { useEffect, useState } from 'react'
 
 export function useUser() {
-  async function checkUsernameAvailability(
-    username: string
-  ): Promise<{ error: string | null }> {
-    const { error } = await UserService.checkUsernameAvailability(username)
+  const [user, setUser] = useState<User | null>(null)
 
-    if (error) return { error }
+  const [loading, setLoading] = useState<boolean>(false)
 
-    return { error: null }
-  }
+  useEffect(() => {
+    async function getUser() {
+      try {
+        setLoading(true)
+        const { user } = await SessionService.getUser()
 
-  async function checkGmailAvailability(
-    gmail: string
-  ): Promise<{ error: string | null }> {
-    const { error } = await UserService.checkGmailAvailability(gmail)
+        if (!user) return
 
-    if (error) return { error }
+        setUser(user)
+      } catch (error) {
+        //
+      } finally {
+        setLoading(false)
+      }
+    }
 
-    return { error: null }
-  }
+    if (!loading) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      getUser()
+    }
+  }, [])
 
-  return { checkUsernameAvailability, checkGmailAvailability }
+  return { user, loading }
 }

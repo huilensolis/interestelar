@@ -1,12 +1,13 @@
 'use client'
 
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
 import { type TCreateProjectFormAreas } from './create-project-form.models'
 import { TextInput } from '@/components/ui/text-input'
 import { PrimaryButton } from '@/components/ui/button/primary/primary-button.component'
-import { useState } from 'react'
-import { ProjectsService } from '@/services/project'
-import { useRouter } from 'next/navigation'
+import { ProjectService } from '@/services/project'
 import { ClientRouting } from '@/models/routes/client'
 
 export function CreateNewProjectForm() {
@@ -26,7 +27,8 @@ export function CreateNewProjectForm() {
 
     try {
       setLoading(true)
-      const { error, data } = await ProjectsService.create({ name })
+      const { error, data } = await ProjectService.CRUD.create({ name })
+
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       if (error || !data) throw new Error('error creating project')
 

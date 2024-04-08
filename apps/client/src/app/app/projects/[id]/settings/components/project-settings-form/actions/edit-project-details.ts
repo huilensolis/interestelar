@@ -1,6 +1,6 @@
 'use server'
 
-import { ProjectsService } from '@/services/project'
+import { ProjectService } from '@/services/project'
 import { getCookie } from '@/utils/cookie/get-cookie'
 import { AxiosError } from 'axios'
 
@@ -16,7 +16,7 @@ export default async function editProjectDetails({
 
     if (!cookie) return { error: 'UNAUTHORIZED' }
 
-    const { error } = await ProjectsService.editProjectDetails({
+    const { error } = await ProjectService.CRUD.editProjectDetails({
       projectId,
       name,
       cookie,

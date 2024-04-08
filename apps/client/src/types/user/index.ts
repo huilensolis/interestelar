@@ -4,6 +4,6 @@ export interface User {
   email: string
   avatar: string
   isActive: boolean
-  roles: string[]
-  projects: string[]
+  roles?: string[]
+  projects?: string[]
 }

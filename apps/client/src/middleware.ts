@@ -18,7 +18,6 @@ export async function middleware(request: NextRequest) {
     if (!isSessionValid) throw new Error('Invalid session')
   } catch (error) {
     console.log('no cookies found in request, redirecting to sign in')
-    console.log(error)
     return NextResponse.redirect(
       `${requestUrl.origin}${ClientRouting.auth().signIn()}`
     )

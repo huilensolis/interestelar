@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ClientRouting } from '@/models/routes/client'
 import { useDebounce } from '@/hooks/use-debounce'
-import { useUser } from '@/hooks/use-user'
 
 export function SignUpForm() {
   const { register, handleSubmit, formState, getFieldState, setError } =
@@ -35,7 +34,7 @@ export function SignUpForm() {
     delay: 1000,
   })
 
-  const { checkGmailAvailability, checkUsernameAvailability } = useUser()
+  const { checkGmailAvailability, checkUsernameAvailability } = useSession()
 
   useEffect(() => {
     async function validateUsername() {

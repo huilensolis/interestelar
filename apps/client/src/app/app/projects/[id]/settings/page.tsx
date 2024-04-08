@@ -1,4 +1,4 @@
-import { ProjectsService } from '@/services/project'
+import { ProjectService } from '@/services/project'
 import { getCookie } from '@/utils/cookie/get-cookie'
 import { ProjectSettingsForm } from './components/project-settings-form'
 import { DeleteProjectBtn } from './components/project-settings-form/delete-project'
@@ -12,7 +12,7 @@ export default async function SettingsPage({
     const { cookie } = getCookie()
     if (!cookie) throw new Error('no cookies found')
 
-    const { data, error } = await ProjectsService.getById(id, cookie)
+    const { data, error } = await ProjectService.CRUD.getById(id, cookie)
 
     if (!data?.project || error) throw new Error('error fetching project')
 

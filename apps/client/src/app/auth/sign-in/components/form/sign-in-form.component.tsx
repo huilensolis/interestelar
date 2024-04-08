@@ -81,7 +81,7 @@ export function SignInForm() {
         disabled={loading || !formState.isValid}
         type="submit"
       >
-        Sign Up
+        Sign In
       </PrimaryButton>
       {errorSigningIn && (
         <span className="text-red-500">There is been an error signing in</span>
