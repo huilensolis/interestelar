@@ -4,22 +4,27 @@ import { ButtonWithFeedback } from '@/components/ui/button/with-feed-back'
 import { useState } from 'react'
 
 import { type TStatus } from '@/components/ui/button/with-feed-back'
+import { ProjectService } from '@/services/project'
 
-export function InviteToProjectBtn () {
+export function InviteToProjectBtn({
+  projectId,
+  userId,
+}: {
+  projectId: string
+  userId: string
+}) {
   const [status, setStatus] = useState<TStatus>('DEFAULT')
 
-  async function invite () {
+  async function invite() {
     try {
       setStatus('LOADING')
 
-      await new Promise((resolve) =>
-        setTimeout(() => {
-          resolve('')
-        }, 1000)
-      )
+      const { error } = await ProjectService.members.invite({
+        projectId,
+        userReceptorId: userId,
+      })
 
-      if (Math.random() * 100 > 45) throw new Error('')
-
+      if (error) throw new Error()
       setStatus('SUCCESS')
     } catch (error) {
       setStatus('ERROR')
@@ -27,7 +32,11 @@ export function InviteToProjectBtn () {
   }
 
   return (
-    <ButtonWithFeedback status={ status } onClick={ invite } className='w-full max-w-28 rounded-md'>
+    <ButtonWithFeedback
+      status={status}
+      onClick={invite}
+      className="w-full max-w-28 rounded-md"
+    >
       Invite
     </ButtonWithFeedback>
   )

@@ -1,9 +1,9 @@
 'use client'
 
 import { Settings, UsersRound, type LucideIcon, Columns3 } from 'lucide-react'
-import { NavLink } from '../../nav-link'
 import { Icon } from '@/components/ui/icon'
 import { ClientRouting } from '@/models/routes/client'
+import { NavLink } from '@/components/features/nav-link'
 
 export function ProjectNavLinks({ projectId }: { projectId: string }) {
   const NAV_LINKS: Array<{ title: string; icon: LucideIcon; href: string }> = [

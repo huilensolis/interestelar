@@ -1,4 +1,4 @@
-import { ProjectsAsideNav } from '@/components/features/projects-aside-nav'
+import { ProjectsAsideNav } from './components/projects-aside-nav'
 
 export default function ProjectsLayout({
   children,

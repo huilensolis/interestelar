@@ -5,7 +5,7 @@ import { UserCard } from './components/user-card'
 export default function MembersPage({
   params: { id },
 }: {
-  params: { id: string }
+  params: { id: string } // project id
 }) {
   const projectCollaborators: User[] = [
     {
@@ -64,7 +64,7 @@ export default function MembersPage({
     <div className="flex flex-col items-center w-full h-full min-h-screen">
       <section className="flex items-center justify-start w-full">
         <h1 className="font-semibold text-3xl">Collaborators</h1>
-        <InviteCollaborator />
+        <InviteCollaborator projectId={id} />
       </section>
       <section className="w-full p-3 flex flex-col gap-2">
         <header className="w-full py-2 border-b border-b-neutral-300">

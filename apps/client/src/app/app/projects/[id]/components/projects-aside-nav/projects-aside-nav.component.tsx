@@ -1,9 +1,9 @@
 import { Hr } from '@/components/ui/hr'
-import { UserCard } from '../user-card'
 import { ProjectNavLinks } from './project-nav-links'
 import { ProjectDropDown } from './project-drop-down'
 import { Suspense } from 'react'
-import { ProjectNavSkelenton } from '../projects-drop-down/project-nav-skeleton'
+import { ProjectNavSkelenton } from '@/components/features/project-drop-down/project-nav-skeleton'
+import { UserCard } from '@/components/features/user-card'
 
 export function ProjectsAsideNav({
   projectId,

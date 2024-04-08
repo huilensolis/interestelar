@@ -2,10 +2,13 @@ import { ApiRouting } from '@/models/routes/api/api.model'
 import axios from 'axios'
 
 export class ProjectMembersService {
-  static async invite(
-    projectId: string,
+  static async invite({
+    projectId,
+    userReceptorId,
+  }: {
+    projectId: string
     userReceptorId: string
-  ): Promise<{ error: 'UNKNOWN' | null }> {
+  }): Promise<{ error: 'UNKNOWN' | null }> {
     try {
       const { status } = await axios.post(ApiRouting.projectMembers.invite(), {
         userReceptorId,
@@ -30,6 +33,7 @@ export class ProjectMembersService {
         ApiRouting.projectMembers.getUserInvitationList()
       )
 
+      console.log({ status })
       return { data, error: null }
     } catch (error) {
       return { data: null, error: 'UNKNOWN' }
@@ -46,6 +50,9 @@ export class ProjectMembersService {
       const { status } = await axios.get(
         ApiRouting.projectMembers.joinProjectByInvitation(projectId)
       )
+
+      console.log({ status })
+
       return { error: null }
     } catch (error) {
       return { error: 'UNKNOWN' }

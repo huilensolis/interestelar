@@ -13,7 +13,7 @@ import { CardSkeleton } from './components/card-skeleton'
 import { UserCard } from '../user-card'
 import { InviteToProjectBtn } from './components/invite-btn'
 
-export function InviteCollaborator() {
+export function InviteCollaborator({ projectId }: { projectId: string }) {
   const [searchValue, setSearchValue] = useState<string>('')
 
   const [users, setUsers] = useState<User[]>([])
@@ -81,7 +81,10 @@ export function InviteCollaborator() {
                     <UserCard user={user} />
                   </div>
                   <div className="flex items-center justify-end">
-                    <InviteToProjectBtn />
+                    <InviteToProjectBtn
+                      projectId={projectId}
+                      userId={user.id}
+                    />
                   </div>
                 </li>
               ))}

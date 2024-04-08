@@ -1,5 +1,5 @@
+import { ProjectsDropDown } from '@/components/features/project-drop-down'
 import { ProjectService } from '@/services/project'
-import { ProjectsDropDown } from '../../projects-drop-down'
 import { getCookie } from '@/utils/cookie/get-cookie'
 
 export async function ProjectDropDown({ projectId }: { projectId: string }) {
